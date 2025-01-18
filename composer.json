@@ -1,0 +1,20 @@
+{
+    "name": "ricotta/app",
+    "description": "Ricotta app library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ricotta\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Thomas Nordahl Pedersen",
+            "email": "thno@fynskemedier.dk"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "require": {}
+}
