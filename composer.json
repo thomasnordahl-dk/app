@@ -3,9 +3,20 @@
     "description": "Ricotta app library",
     "type": "library",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/thomasnordahl-dk/container"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Ricotta\\App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ricotta\\App\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -16,5 +27,16 @@
     ],
     "prefer-stable": true,
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "php": ">=8.4",
+        "ricotta/container": "^0.1.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.7"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }
