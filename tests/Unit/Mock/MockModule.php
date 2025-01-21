@@ -9,7 +9,7 @@ use Ricotta\App\Module;
 
 class MockModule implements Module
 {
-    public function register(App $param): void
+    public function register(App $app): void
     {
         // TODO: Implement register() method.
     }

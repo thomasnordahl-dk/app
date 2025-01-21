@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ricotta\App\Routing;
 
+use Ricotta\App\Controller;
+
 class Definition
 {
     protected Method $method;
@@ -98,5 +100,10 @@ class Definition
     {
         $this->method = $method;
         $this->controller = $controller;
+    }
+
+    public function createRoute(): Route
+    {
+        return new Route($this->pattern, $this->pattern, $this->controller, $this->method);
     }
 }

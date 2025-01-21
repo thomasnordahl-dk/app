@@ -4,34 +4,42 @@ namespace Ricotta\App\Tests\Unit;
 
 use Ricotta\App\App;
 use Ricotta\App\Routing\Routes;
-use Ricotta\App\Tests\Mock\MockController;
+use Ricotta\App\Tests\Unit\Mock\MockController;
 use Ricotta\App\Tests\Unit\Mock\MockModule;
 use Ricotta\Container\Bootstrapping;
 
-test('App bootstrapping', function () {
-    $app = new App();
+use function Ricotta\App\Tests\Support\getApp;
+use function Ricotta\App\Tests\Support\resetApp;
 
-    expect($app)
+beforeEach(fn() => resetApp());
+
+test('App bootstrapping', function () {
+    expect(getApp())
         ->toBeInstanceOf(App::class)
-        ->and($app->bootstrap)
+        ->and(getApp()->bootstrap)
         ->toBeInstanceOf(Bootstrapping::class)
-        ->and($app->routes)
+        ->and(getApp()->routes)
         ->toBeInstanceOf(Routes::class);
 });
 
 test('App with routing', function () {
-    $app = new App();
+    getApp()->routes['/']->get(MockController::class);
+    getApp()->routes['/tests']->get(MockController::class);
+    getApp()->routes['/bad']->get('NonExistentController');
 
-    $app->routes['/']->get(MockController::class);
+    expect()->toGoToPage("/")->responseCode(200)->responseBody('Hello, World!');
+    expect()->toGoToPage("/tests")->responseCode(200)->responseBody('Hello, World!');
+    expect()->toGoToPage("/not-found")->responseCode(404);
+    expect()->toGoToPage("/bad")->responseCode(500);
 
-    // TODO assert routing
+    // TODO test dynamic route resolution
 });
 
 test('App modules', function () {
-    $app = new App();
+    getApp()->add(new MockModule());
+    getApp()->run();
 
-    $app->add(new MockModule());
-
-    // TODO assert module registration
+    expect()->toGoToPage('/')->responseCode(404);
+    // TODO test actual module registration
 });
 

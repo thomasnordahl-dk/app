@@ -6,5 +6,5 @@ namespace Ricotta\App;
 
 interface Module
 {
-    public function register(App $param): void;
+    public function register(App $app): void;
 }
