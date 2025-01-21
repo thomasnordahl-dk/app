@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Ricotta\App;
 
-use Ricotta\App\Module\Routing\Routes;
+use Ricotta\App\Module\HTTP\HHTPModule;
+use Ricotta\App\Module\HTTP\Routing\Routes;
+use Ricotta\App\Module\HTTP\Server;
 use Ricotta\Container\Bootstrapping;
 use Ricotta\Container\Container;
 
@@ -14,11 +16,7 @@ class App
         private(set) readonly Bootstrapping $bootstrap = new Bootstrapping(),
         private(set) readonly Routes $routes = new Routes(),
     ) {
-        $this->bootstrap->allowAutowiring(Controller::class);
-
-        $this->bootstrap[Routes::class]->register()->value($this->routes);
-
-        $this->add(new Module\HTTP());
+        $this->add(new HHTPModule($this->routes));
     }
 
     public function run(): void

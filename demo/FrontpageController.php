@@ -7,7 +7,7 @@ namespace Ricotta\App\Demo;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Ricotta\App\Controller;
+use Ricotta\App\Module\HTTP\Controller;
 
 readonly class FrontpageController implements Controller
 {

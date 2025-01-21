@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App;
+namespace Ricotta\App\Module\HTTP;
 
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Ricotta\App\Module\Routing\Routes;
+use Ricotta\App\Module\HTTP\Routing\Routes;
 use Ricotta\Container\Container;
 
 class Server

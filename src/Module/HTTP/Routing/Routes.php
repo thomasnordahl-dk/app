@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\Routing;
+namespace Ricotta\App\Module\HTTP\Routing;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -21,7 +21,7 @@ class Routes implements \ArrayAccess
         return array_key_exists($offset, $this->definitions);
     }
 
-    public function offsetGet(mixed $offset): mixed
+    public function offsetGet(mixed $offset): Definition
     {
         $this->definitions[$offset] ??= new Definition($offset);
 

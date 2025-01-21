@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App;
+namespace Ricotta\App\Module\HTTP;
 
 use Psr\Http\Message\ResponseInterface;
 

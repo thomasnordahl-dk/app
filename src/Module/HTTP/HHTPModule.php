@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module;
+namespace Ricotta\App\Module\HTTP;
 
 use HttpSoft\Emitter\EmitterInterface;
 use HttpSoft\Emitter\SapiEmitter;
@@ -17,15 +17,23 @@ use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Ricotta\App\App;
 use Ricotta\App\Module;
-use Ricotta\App\Server;
+use Ricotta\App\Module\HTTP\Routing\Routes;
 
 /**
  * @internal
  */
-class HTTP implements Module
+readonly class HHTPModule implements Module
 {
+    public function __construct(private Routes $routes)
+    {
+    }
+
     public function register(App $app): void
     {
+        $app->bootstrap[Routes::class]->register()->value($this->routes);
+
+        $app->bootstrap->allowAutowiring(Controller::class);
+
         $app->bootstrap[Server::class]->register();
 
         $app->bootstrap[EmitterInterface::class]->register()->type(SapiEmitter::class);

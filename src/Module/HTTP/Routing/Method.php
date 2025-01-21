@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\Routing;
+namespace Ricotta\App\Module\HTTP\Routing;
 
 enum Method: string
 {

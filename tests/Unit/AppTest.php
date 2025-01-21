@@ -3,7 +3,7 @@
 namespace Ricotta\App\Tests\Unit;
 
 use Ricotta\App\App;
-use Ricotta\App\Module\Routing\Routes;
+use Ricotta\App\Module\HTTP\Routing\Routes;
 use Ricotta\App\Tests\Unit\Mock\MockController;
 use Ricotta\App\Tests\Unit\Mock\MockModule;
 use Ricotta\Container\Bootstrapping;
