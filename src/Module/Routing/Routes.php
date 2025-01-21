@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Routing;
+namespace Ricotta\App\Module\Routing;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -41,9 +41,24 @@ class Routes implements \ArrayAccess
     public function detect(ServerRequestInterface $request): ?Route
     {
         foreach ($this->definitions as $route => $definition) {
-            if ($request->getUri()->getPath() === $route) {
-                return $definition->createRoute();
+            $routeSubPaths = explode('/', $route);
+            $pathSubPaths = explode('/', $request->getUri()->getPath());
+
+            if (count($routeSubPaths) !== count($pathSubPaths)) {
+                continue;
             }
+
+            foreach ($routeSubPaths as $index => $routeSubPath) {
+                if (preg_match('/^{(.*)}$/i', $routeSubPath)) {
+                    continue;
+                }
+
+                if ($routeSubPath === '*' || $routeSubPath !== $pathSubPaths[$index]) {
+                    continue 2;
+                }
+            }
+
+            return $definition->createRoute();
         }
 
         return null;

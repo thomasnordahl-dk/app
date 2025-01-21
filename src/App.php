@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App;
 
-use Ricotta\App\Routing\Routes;
+use Ricotta\App\Module\Routing\Routes;
 use Ricotta\Container\Bootstrapping;
 use Ricotta\Container\Container;
 

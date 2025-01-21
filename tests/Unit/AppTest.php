@@ -3,7 +3,7 @@
 namespace Ricotta\App\Tests\Unit;
 
 use Ricotta\App\App;
-use Ricotta\App\Routing\Routes;
+use Ricotta\App\Module\Routing\Routes;
 use Ricotta\App\Tests\Unit\Mock\MockController;
 use Ricotta\App\Tests\Unit\Mock\MockModule;
 use Ricotta\Container\Bootstrapping;
@@ -24,11 +24,11 @@ test('App bootstrapping', function () {
 
 test('App with routing', function () {
     getApp()->routes['/']->get(MockController::class);
-    getApp()->routes['/tests']->get(MockController::class);
+    getApp()->routes['/tests/{wildcard}/id']->get(MockController::class);
     getApp()->routes['/bad']->get('NonExistentController');
 
     expect()->toGoToPage("/")->responseCode(200)->responseBody('Hello, World!');
-    expect()->toGoToPage("/tests")->responseCode(200)->responseBody('Hello, World!');
+    expect()->toGoToPage("/tests/value/id")->responseCode(200)->responseBody('Hello, World!');
     expect()->toGoToPage("/not-found")->responseCode(404);
     expect()->toGoToPage("/bad")->responseCode(500);
 

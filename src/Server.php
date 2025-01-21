@@ -7,7 +7,7 @@ namespace Ricotta\App;
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Ricotta\App\Routing\Routes;
+use Ricotta\App\Module\Routing\Routes;
 use Ricotta\Container\Container;
 
 class Server
