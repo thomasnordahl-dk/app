@@ -16,21 +16,28 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Ricotta\App\App;
-use Ricotta\App\Module;
-use Ricotta\App\Module\HTTP\Routing\Routes;
+use Ricotta\App\Module\HTTP\Routing\Router;
+use Ricotta\App\Module\HTTP\Routing\RouteResult;
+use Ricotta\App\Module\Module;
 
 /**
  * @internal
  */
 readonly class HHTPModule implements Module
 {
-    public function __construct(private Routes $routes)
+    public function __construct(private Router $routes)
     {
     }
 
     public function register(App $app): void
     {
-        $app->bootstrap[Routes::class]->register()->value($this->routes);
+        $app->bootstrap[Router::class]->register()->value($this->routes);
+        $app->bootstrap[RouteResult::class]->register()
+            ->callback(function (Router $routes, ServerRequestInterface $request) {
+                $route = $routes->detect($request);
+
+                return new RouteResult($route !== null, $route);
+            });
 
         $app->bootstrap->allowAutowiring(Controller::class);
 

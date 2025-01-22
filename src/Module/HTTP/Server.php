@@ -7,8 +7,11 @@ namespace Ricotta\App\Module\HTTP;
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Ricotta\App\Module\HTTP\Routing\Routes;
+use Ricotta\App\Module\HTTP\Routing\Route;
+use Ricotta\App\Module\HTTP\Routing\RouteResult;
 use Ricotta\Container\Container;
+
+use function var_dump;
 
 class Server
 {
@@ -16,21 +19,21 @@ class Server
         private readonly Container $container,
         private readonly EmitterInterface $emitter,
         private readonly ResponseFactoryInterface $responseFactory,
-        private readonly Routes $routes,
-        private readonly ServerRequestInterface $request,
+        private readonly RouteResult $routeResult
     ) {
+
     }
 
     public function dispatch(): void
     {
-        $route = $this->routes->detect($this->request);
-
-        if ($route === null) {
+        if ($this->routeResult->isFound === false) {
             $response = $this->responseFactory->createResponse(404);
             $response->getBody()->write('Not Found');
         } else {
             try {
-                $response = $this->container->get($route->controller)->dispatch();
+                /** @var class-string<Controller> $controller */
+                $controller = $this->routeResult?->route->controller ?? '';
+                $response = $this->container->get($controller)->dispatch();
             } catch (\Throwable) {
                 $response = $this->responseFactory->createResponse(500);
                 $response->getBody()->write('Internal Server Error');

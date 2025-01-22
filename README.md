@@ -33,10 +33,10 @@ $app->run();
 
 ### 0.1.0
 
-- [ ] Basic application structure
-- [ ] Routing
+- [x] Basic application structure
+- [x] Routing
 - [ ] Middleware
-- [ ] Controllers
+- [x] Controllers
 
 ### 0.2.0
 
@@ -46,6 +46,7 @@ $app->run();
 
 ### 0.3.0
 
+- [ ] Input parsing
 - [ ] Templating and view models
 - [ ] Configuration
 

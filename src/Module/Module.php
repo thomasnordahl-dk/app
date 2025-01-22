@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App;
+namespace Ricotta\App\Module;
+
+use Ricotta\App\App;
 
 interface Module
 {

@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Ricotta\App\Module\HTTP\Routing;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Ricotta\App\Module\HTTP\Controller;
+
+use function array_slice;
+use function explode;
+use function implode;
+use function preg_match;
+use function var_dump;
 
 class Definition
 {
-    protected Method $method;
+    private Method $method;
 
     /**
      * @var class-string<Controller>
      */
-    protected string $controller;
+    private string $controller;
 
-    public function __construct(protected readonly string $pattern)
+    public function __construct(private readonly string $pattern)
     {
     }
 
@@ -102,8 +109,49 @@ class Definition
         $this->controller = $controller;
     }
 
-    public function createRoute(): Route
+    public function detectRoute(ServerRequestInterface $request): ?Route
     {
-        return new Route($this->pattern, $this->pattern, $this->controller, $this->method);
+        if (strtoupper($request->getMethod()) !== $this->method->value) {
+            return null;
+        }
+
+        $path = $request->getUri()->getPath();
+
+        /** @var array<int, string> $subPatterns */
+        $subPatterns = explode('/', $this->pattern);
+
+        /** @var array<int, string> $subPaths */
+        $subPaths = explode('/', $path);
+
+        /** @var array<string, string> $parameters */
+        $parameters = [];
+
+        /** @var ?string $wildcard */
+        $wildcard = null;
+
+        foreach ($subPatterns as $index => $subPattern) {
+            if (preg_match('/^{(.*)}$/i', $subPattern)) {
+                $parameters[mb_substr($subPattern, 1, -1)] = $subPaths[$index];
+                continue;
+            }
+
+            if ($subPattern === '*') {
+                $wildcard = implode('/', array_slice($subPaths, $index));
+                continue;
+            }
+
+            if ($subPattern !== $subPaths[$index]) {
+                return null;
+            }
+        }
+
+        return new Route(
+            $this->pattern,
+            $path,
+            $this->controller,
+            $this->method,
+            $parameters,
+            $wildcard
+        );
     }
 }

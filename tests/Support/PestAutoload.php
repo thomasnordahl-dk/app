@@ -22,10 +22,22 @@ expect()->extend('responseHeader', function (string $header, string $expectedVal
     return expect(getResponse()?->getHeaderLine($header))->toBe($expectedValue);
 });
 
-expect()->extend('toGoToPage', function (string $path): void {
+expect()->extend('getPage', function (string $path): void {
     getApp()->bootstrap[ServerRequestInterface::class]->register()
         ->callback(
-            fn(ServerRequestFactoryInterface $requestFactory) => $requestFactory->createServerRequest('GET', $path)
+            fn(ServerRequestFactoryInterface $requestFactory) => $requestFactory
+                ->createServerRequest('GET', $path)
+        );
+
+    getApp()->run();
+});
+
+expect()->extend('postPage', function (string $path, array $data = []): void {
+    getApp()->bootstrap[ServerRequestInterface::class]->register()
+        ->callback(
+            fn(ServerRequestFactoryInterface $requestFactory) => $requestFactory
+                ->createServerRequest('POST', $path)
+                ->withParsedBody($data)
         );
 
     getApp()->run();
