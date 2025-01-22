@@ -3,7 +3,7 @@
 namespace Ricotta\App\Tests\Unit;
 
 use Ricotta\App\App;
-use Ricotta\App\Module\HTTP\Routing\Router;
+use Ricotta\App\Module\HTTP\Routes;
 use Ricotta\App\Module\HTTP\Routing\RouterException;
 use Ricotta\App\Tests\Unit\Mock\MockController;
 use Ricotta\App\Tests\Unit\Mock\MockModule;
@@ -20,15 +20,19 @@ test('App bootstrapping', function () {
         ->and(getApp()->bootstrap)
         ->toBeInstanceOf(Bootstrapping::class)
         ->and(getApp()->routes)
-        ->toBeInstanceOf(Router::class);
+        ->toBeInstanceOf(Routes::class);
 });
 
 test('App with routing', function () {
     getApp()->routes['/']->get(MockController::class);
     getApp()->routes['/tests/{subpath}/id/*']->post(MockController::class);
     getApp()->routes['/bad']->get('NonExistentController');
-    getApp()->routes['not-found']->get(MockController::class);
-    unset(getApp()->routes['not-found']);
+
+    getApp()->routes['/put']->put(MockController::class);
+    getApp()->routes['/delete']->delete(MockController::class);
+    getApp()->routes['/patch']->patch(MockController::class);
+    getApp()->routes['/options']->options(MockController::class);
+    getApp()->routes['/head']->head(MockController::class);
 
     expect(isset(getApp()->routes['/']))->toBeTrue();
     expect()->getPage("/")->responseCode(200)->responseBody('Hello, World!');
@@ -37,6 +41,12 @@ test('App with routing', function () {
     expect()->getPage("/tests/value/id/wildcard/1234")->responseCode(404);
     expect()->postPage("/tests/value/id/wildcard/1234")->responseCode(200)
         ->responseBody('Hello, World!, subpath: value, wildcard: wildcard/1234');
+
+    expect()->request('PUT', '/put')->responseCode(200);
+    expect()->request('DELETE', '/delete')->responseCode(200);
+    expect()->request('PATCH', '/patch')->responseCode(200);
+    expect()->request('OPTIONS', '/options')->responseCode(200);
+    expect()->request('HEAD', '/head')->responseCode(200);
 
     expect()->getPage("/not-found")->responseCode(404);
 

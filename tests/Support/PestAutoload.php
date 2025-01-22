@@ -43,6 +43,17 @@ expect()->extend('postPage', function (string $path, array $data = []): void {
     getApp()->run();
 });
 
+expect()->extend('request', function (string $method, string $path, array $data = []): void {
+    getApp()->bootstrap[ServerRequestInterface::class]->register()
+        ->callback(
+            fn(ServerRequestFactoryInterface $requestFactory) => $requestFactory
+                ->createServerRequest($method, $path)
+                ->withParsedBody($data)
+        );
+
+    getApp()->run();
+});
+
 function getResponse(): ?ResponseInterface
 {
     return getSupport()->getResponse();
