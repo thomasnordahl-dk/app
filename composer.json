@@ -16,7 +16,7 @@
     },
     "autoload-dev": {
         "files": [
-            "tests/Support/PestAutoload.php"
+            "tests/Support/Autoload.php"
         ],
         "psr-4": {
             "Ricotta\\App\\Tests\\": "tests/",

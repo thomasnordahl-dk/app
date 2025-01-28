@@ -140,7 +140,7 @@ class Definition
                 continue;
             }
 
-            if ($subPattern !== $subPaths[$index]) {
+            if ($subPattern !== ($subPaths[$index] ?? null)) {
                 return null;
             }
         }

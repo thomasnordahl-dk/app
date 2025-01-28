@@ -10,6 +10,10 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Ricotta\App\App;
 
+use function set_error_handler;
+
+use const PHP_EOL;
+
 expect()->extend('responseCode', function (int $expectedCode): Expectation {
     return expect(getResponse()?->getStatusCode())->toBe($expectedCode);
 });
@@ -69,11 +73,21 @@ function resetApp(): void
     getSupport()->resetApp();
 }
 
-function getSupport(): PestSupport
+function getSupport(): TestAppState
 {
     global $support;
 
-    $support ??= new PestSupport();
+    $support ??= new TestAppState();
 
     return $support;
+}
+
+// Pest eats up errors and exceptions. Call this function before running tests to see them.
+function useDebugErrorHandler(): void
+{
+    set_error_handler(function ($number, $message, $file, $line) {
+        echo "Error [$number]: $message in $file on line $line" . PHP_EOL;
+
+        return false; // Allow default error handling to proceed
+    });
 }

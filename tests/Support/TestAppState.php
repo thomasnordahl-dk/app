@@ -8,7 +8,7 @@ use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ricotta\App\App;
 
-class PestSupport
+class TestAppState
 {
     private ?TestEmitter $internalEmitter = null;
 
@@ -24,7 +24,10 @@ class PestSupport
         if ($this->internalApp === null) {
             $this->internalEmitter = new TestEmitter();
             $this->internalApp = new App();
-            $this->internalApp->bootstrap[EmitterInterface::class]->replace(fn() => $this->internalEmitter);
+            // Register the TestEmitter instance as the EmitterInterface implementation.
+            $this->internalApp->bootstrap[EmitterInterface::class]
+                ->register()
+                ->value($this->internalEmitter);
         }
 
         return $this->internalApp;
