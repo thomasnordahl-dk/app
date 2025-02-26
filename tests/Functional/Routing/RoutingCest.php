@@ -90,6 +90,13 @@ class RoutingCest
         $I->amOnPage('/bad');
         $I->seeResponseCodeIs(500);
 
+        $app = $I->getApp();
+
+        unset($app->routes['/']);
+
+        $I->amOnPage('/');
+        $I->seeResponseCodeIs(404);
+
         $I->expectThrowable(RouterException::class, fn() => $app->routes['/'] = 'test');
 
         $I->expectThrowable(
