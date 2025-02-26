@@ -29,6 +29,36 @@ $app->routes['/']->get(MyModule\GetFrontPage::class);
 $app->run();
 ```
 
+### Example nginx configuration
+
+```
+server {
+    listen       127.0.0.1:80;
+    server_name  localhost;
+    root         /home/my-user/project-folder/demo;
+    index        index.php;
+
+    location /favicon.ico {
+    try_files $uri =404;
+
+    location / {
+        try_files $uri $uri/index.html /index.php?$query_string;
+    }
+    
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass   unix:/run/php/php8.4-fpm.sock;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_buffering off;
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
+        include fastcgi_params;
+    }
+}
+```
+
 ## Roadmap
 
 ### 0.1.0

@@ -6,12 +6,8 @@ namespace Ricotta\App\Module\HTTP;
 
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Ricotta\App\Module\HTTP\Routing\Route;
 use Ricotta\App\Module\HTTP\Routing\RouteResult;
 use Ricotta\Container\Container;
-
-use function var_dump;
 
 class Server
 {
