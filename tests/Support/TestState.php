@@ -8,7 +8,7 @@ use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseInterface;
 use Ricotta\App\App;
 
-class TestAppState
+class TestState
 {
     private ?TestEmitter $internalEmitter = null;
 

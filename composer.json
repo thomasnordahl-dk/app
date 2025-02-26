@@ -15,9 +15,6 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "tests/Support/Autoload.php"
-        ],
         "psr-4": {
             "Ricotta\\App\\Tests\\": "tests/",
             "Ricotta\\App\\Demo\\": "demo/"
@@ -38,11 +35,15 @@
         "psr/http-message": "^2.0",
         "psr/http-factory": "^1.1",
         "nyholm/psr7-server": "^1.1",
-        "httpsoft/http-emitter": "^1.1"
+        "httpsoft/http-emitter": "^1.1",
+        "codeception/module-rest": "^3.4"
     },
     "require-dev": {
         "pestphp/pest": "^3.7",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "codeception/codeception": "^5.2",
+        "codeception/module-asserts": "^3.0",
+        "codeception/lib-innerbrowser": "^4.0"
     },
     "config": {
         "allow-plugins": {
@@ -50,7 +51,7 @@
         }
     },
     "scripts": {
-        "test": "pest",
+        "test": "codecept run",
         "phpstan": "phpstan analyse --level=9 src demo",
         "all": [
             "@test",

@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Unit\Modules\Mock;
+namespace Ricotta\App\Tests\Functional\Modules\Mock;
 
 use Ricotta\App\App;
 use Ricotta\App\Module\Module;
-use Ricotta\App\Tests\Unit\Modules\Mock\Service;
 
 class MockModule implements Module
 {

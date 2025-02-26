@@ -11,10 +11,12 @@ use function array_slice;
 use function explode;
 use function implode;
 use function preg_match;
-use function var_dump;
 
 class Definition
 {
+    private const string VALID_PATH_REGEX    = '#^(/[A-Za-z0-9\-._~!$&\'()*+,;=:@%]*)*$#';
+    private const string VALID_PATTERN_REGEX = '#^(/(?:[A-Za-z0-9\-._~!$&\'()*+,;=:@%]+|\{[A-Za-z0-9_]+\}))*/*\*?$#';
+
     private Method $method;
 
     /**
@@ -22,8 +24,14 @@ class Definition
      */
     private string $controller;
 
+    /**
+     * @throws RouterException
+     */
     public function __construct(private readonly string $pattern)
     {
+        if (! preg_match(self::VALID_PATTERN_REGEX, $pattern)) {
+            throw new RouterException("Invalid pattern - '{$pattern}'");
+        }
     }
 
     /**
@@ -109,6 +117,9 @@ class Definition
         $this->controller = $controller;
     }
 
+    /**
+     * @throws RouterException
+     */
     public function detectRoute(ServerRequestInterface $request): ?Route
     {
         if (strtoupper($request->getMethod()) !== $this->method->value) {
@@ -116,6 +127,10 @@ class Definition
         }
 
         $path = $request->getUri()->getPath();
+
+        if (! preg_match(self::VALID_PATH_REGEX, $path)) {
+            throw new RouterException("Invalid path - '{$path}'");
+        }
 
         /** @var array<int, string> $subPatterns */
         $subPatterns = explode('/', trim($this->pattern, ' /'));

@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Unit\Routing\Mock;
+namespace Ricotta\App\Tests\Functional\Routing\Mock;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Ricotta\App\Module\HTTP\Controller;
-use Ricotta\App\Module\HTTP\Routing\Route;
 use Ricotta\App\Module\HTTP\Routing\RouteResult;
 
 class GetController implements Controller

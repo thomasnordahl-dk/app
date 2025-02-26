@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Unit\Modules\Mock;
+namespace Ricotta\App\Tests\Functional\Modules\Mock;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Ricotta\App\Module\HTTP\Controller;
-use Ricotta\App\Tests\Unit\Modules\Mock\Service;
 
 class MockController implements Controller
 {
