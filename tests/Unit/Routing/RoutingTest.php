@@ -29,6 +29,7 @@ test('App with routing', function () {
 
     expect(isset(getApp()->routes['/']))->toBeTrue();
     expect()->getPage("/")->responseCode(200)->responseBody('Hello, World!');
+    expect()->getPage("")->responseCode(200)->responseBody('Hello, World!');
     expect()->postPage("/")->responseCode(404);
 
     expect()->getPage("/tests/value/id/wildcard/1234")->responseCode(404);
@@ -36,6 +37,7 @@ test('App with routing', function () {
         ->responseBody('Hello, Post!, subpath: value, name: id, wildcard: wildcard/1234');
 
     expect()->request('PUT', '/put')->responseCode(200)->responseBody('Hello, Put!');
+    expect()->request('PUT', '/put/')->responseCode(200)->responseBody('Hello, Put!');
     expect()->request('DELETE', '/delete')->responseCode(200)->responseBody('Hello, Delete!');
     expect()->request('PATCH', '/patch')->responseCode(200)->responseBody('Hello, Patch!');
     expect()->request('OPTIONS', '/options')->responseCode(200)->responseBody('Hello, Options!');
@@ -53,4 +55,8 @@ test('App with routing', function () {
 
     expect(fn() => getApp()->routes['dont/set/directly'] = 'test')
         ->toThrow(RouterException::class);
+
+    expect(fn() => getApp()->routes['invalid\url@pattern']->get(GetController::class))
+        ->toThrow(RouterException::class);
 });
+

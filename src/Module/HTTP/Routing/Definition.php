@@ -118,10 +118,10 @@ class Definition
         $path = $request->getUri()->getPath();
 
         /** @var array<int, string> $subPatterns */
-        $subPatterns = explode('/', $this->pattern);
+        $subPatterns = explode('/', trim($this->pattern, ' /'));
 
         /** @var array<int, string> $subPaths */
-        $subPaths = explode('/', $path);
+        $subPaths = explode('/', trim($path, ' /'));
 
         /** @var array<string, string> $parameters */
         $parameters = [];
