@@ -16,6 +16,8 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Ricotta\App\App;
+use Ricotta\App\Module\HTTP\Middleware\CallbackHandlerFactory;
+use Ricotta\App\Module\HTTP\Middleware\RequestHandler;
 use Ricotta\App\Module\HTTP\Routing\Router;
 use Ricotta\App\Module\HTTP\Routing\RouteResult;
 use Ricotta\App\Module\Module;
@@ -31,6 +33,12 @@ readonly class HHTPModule implements Module
 
     public function register(App $app): void
     {
+        $app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([]);
+        $app->bootstrap[RequestHandler::class]->register()
+            ->arguments(['middlewares' => $app->bootstrap[App::MIDDLEWARE_STACK]->reference()]);
+
+        $app->bootstrap[CallbackHandlerFactory::class]->register();
+
         $app->bootstrap[Router::class]->register()->value($this->routes);
         $app->bootstrap[RouteResult::class]->register()
             ->callback(function (Router $routes, ServerRequestInterface $request) {

@@ -16,12 +16,8 @@ class Functional extends Framework //implements MultiSession
     {
         parent::_before($test);
 
+        $this->getSupport()->resetApp();
         $this->client = new TestClient($this->getSupport());
-    }
-
-    public function __construct(ModuleContainer $moduleContainer, ?array $config = null)
-    {
-        parent::__construct($moduleContainer, $config);
     }
 
     public function getResponse(): ?ResponseInterface

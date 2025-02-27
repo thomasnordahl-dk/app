@@ -65,7 +65,7 @@ server {
 
 - [x] Basic application structure
 - [x] Routing
-- [ ] Middleware
+- [x] Middleware
 - [x] Controllers
 
 ### 0.2.0

@@ -1,0 +1,81 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Ricotta\App\Module\HTTP\Middleware;
+
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Ricotta\App\Module\HTTP\Controller;
+use Ricotta\App\Module\HTTP\Routing\RouteResult;
+use Ricotta\Container\Container;
+use Ricotta\Container\Framework\Reference;
+
+class RequestHandler implements RequestHandlerInterface
+{
+    private int $counter = 0;
+
+    /**
+     * @param list<MiddlewareInterface|Reference> $middlewares
+     * @param RouteResult                         $routeResult
+     * @param Container                           $container
+     * @param ResponseFactoryInterface            $responseFactory
+     * @param StreamFactoryInterface              $streamFactory
+     */
+    public function __construct(
+        private readonly array $middlewares,
+        private readonly RouteResult $routeResult,
+        private readonly ContainerInterface $container,
+        private readonly ResponseFactoryInterface $responseFactory,
+        private readonly StreamFactoryInterface $streamFactory,
+        private readonly CallbackHandlerFactory $callbackHandlerFactory,
+    ) {
+    }
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $middleware = $this->middlewares[$this->counter] ?? null;
+        $this->counter++;
+
+        if ($middleware instanceof Reference) {
+            $middleware = $middleware->resolve($this->container);
+        }
+
+        if ($middleware instanceof MiddlewareInterface) {
+            $callbackHandler = $this->callbackHandlerFactory->create($this->handle(...));
+
+            $response = $middleware->process($request, $callbackHandler);
+        } else {
+            $response = $this->createResponse($request);
+        }
+
+        return $response;
+    }
+
+    private function createResponse(ServerRequestInterface $request): ResponseInterface
+    {
+        if ($this->routeResult->isFound === false) {
+            $response = $this->responseFactory->createResponse(404);
+            $response->getBody()->write('Not Found');
+        } else {
+            try {
+                /** @var class-string<Controller> $controller */
+                $controller = $this->routeResult?->route->controller ?? '';
+                $response = $this->container
+                    ->create($controller, [ServerRequestInterface::class => $request])
+                    ->dispatch();
+            } catch (\Throwable $error) {
+                $message = $this->streamFactory->createStream('Internal Server Error: ' . $error->getMessage());
+                $response = $this->responseFactory->createResponse(500)->withBody($message);
+                $response->getBody()->write('Internal Server Error');
+            }
+        }
+
+        return $response;
+    }
+}

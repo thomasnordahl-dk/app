@@ -14,6 +14,8 @@ use Ricotta\Container\Container;
 
 class App
 {
+    public const string MIDDLEWARE_STACK = 'ricotta.app.middleware_stack';
+
     private(set) Bootstrapping $bootstrap;
 
     private(set) Routes $routes;
