@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\HTTP\Middleware;
+namespace Ricotta\App\Module\Web\Middleware;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -11,8 +11,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Ricotta\App\Module\HTTP\Controller;
-use Ricotta\App\Module\HTTP\Routing\RouteResult;
+use Ricotta\App\Module\Web\Controller;
+use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\Container\Container;
 use Ricotta\Container\Framework\Reference;
 

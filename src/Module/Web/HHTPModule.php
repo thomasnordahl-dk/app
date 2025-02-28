@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\HTTP;
+namespace Ricotta\App\Module\Web;
 
 use HttpSoft\Emitter\EmitterInterface;
 use HttpSoft\Emitter\SapiEmitter;
@@ -16,10 +16,10 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Ricotta\App\App;
-use Ricotta\App\Module\HTTP\Middleware\CallbackHandlerFactory;
-use Ricotta\App\Module\HTTP\Middleware\RequestHandler;
-use Ricotta\App\Module\HTTP\Routing\Router;
-use Ricotta\App\Module\HTTP\Routing\RouteResult;
+use Ricotta\App\Module\Web\Middleware\CallbackHandlerFactory;
+use Ricotta\App\Module\Web\Middleware\RequestHandler;
+use Ricotta\App\Module\Web\Routing\Router;
+use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\App\Module\Module;
 
 /**

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\HTTP;
+namespace Ricotta\App\Module\Web;
 
 use ArrayAccess;
-use Ricotta\App\Module\HTTP\Routing\Definition;
+use Ricotta\App\Module\Web\Routing\Definition;
 
 /**
  * @extends ArrayAccess<string, Definition>

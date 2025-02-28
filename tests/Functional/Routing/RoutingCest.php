@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App\Tests\Functional\Routing;
 
-use Ricotta\App\Module\HTTP\Routing\RouterException;
+use Ricotta\App\Module\Web\Routing\RouterException;
 use Ricotta\App\Tests\Functional\Routing\Mock\DeleteController;
 use Ricotta\App\Tests\Functional\Routing\Mock\GetController;
 use Ricotta\App\Tests\Functional\Routing\Mock\HeadController;

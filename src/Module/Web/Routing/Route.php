@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\HTTP\Routing;
+namespace Ricotta\App\Module\Web\Routing;
 
-use Ricotta\App\Module\HTTP\Controller;
+use Ricotta\App\Module\Web\Controller;
 
 readonly class Route
 {

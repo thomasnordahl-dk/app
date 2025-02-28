@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\HTTP\Middleware;
+namespace Ricotta\App\Module\Web\Middleware;
 
 use Closure;
 use Psr\Http\Message\ResponseInterface;

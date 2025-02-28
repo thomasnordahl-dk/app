@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\HTTP;
+namespace Ricotta\App\Module\Web;
 
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Ricotta\App\Module\HTTP\Middleware\RequestHandler;
+use Ricotta\App\Module\Web\Middleware\RequestHandler;
 
 readonly class Server
 {
