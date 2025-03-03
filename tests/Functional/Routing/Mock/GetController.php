@@ -15,9 +15,9 @@ class GetController implements Controller
     public string $message = 'Hello, World!';
 
     public function __construct(
-        private readonly ResponseFactoryInterface $response_factory,
-        private readonly StreamFactoryInterface $stream_factory,
-        private readonly RouteResult $route_result,
+        private readonly ResponseFactoryInterface $responseFactory,
+        private readonly StreamFactoryInterface $streamFactory,
+        private readonly RouteResult $routeResult,
     ) {
     }
 
@@ -25,16 +25,16 @@ class GetController implements Controller
     {
         $message = $this->message;
 
-        foreach ($this->route_result->route->parameters as $name => $value) {
+        foreach ($this->routeResult->route->parameters as $name => $value) {
             $message .= ', ' . $name . ': ' . $value;
         }
 
-        if ($this->route_result->route->wildcard !== null) {
-            $message .= ', wildcard: ' . $this->route_result->route->wildcard;
+        if ($this->routeResult->route->wildcard !== null) {
+            $message .= ', wildcard: ' . $this->routeResult->route->wildcard;
         }
 
-        $stream = $this->stream_factory->createStream($message);
+        $stream = $this->streamFactory->createStream($message);
 
-        return $this->response_factory->createResponse(200)->withBody($stream);
+        return $this->responseFactory->createResponse(200)->withBody($stream);
     }
 }
