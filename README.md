@@ -25,8 +25,60 @@ $app = new Ricotta\App();
 $app->add(new UserModule());
 
 $app->routes['/']->get(MyModule\GetFrontPage::class);
+$app->routes['/api/v1/{collection}/{id}']->get(MyModule\V1\GetEntity::class);
+$app->routes['/show-product/{id}/*']->get(MyModule\ShowProduct::class);
+
+$app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([
+    $app->bootstrap[Cookiemiddleware::class]->reference(),
+    $app->bootstrap[SessionMiddleware::class]->reference(),
+]);
 
 $app->run();
+```
+
+```php
+namespace MyModule
+
+class GetFrontPage implements Controller
+{
+    public function __construct(
+        private readonly ResponseFactoryInterface $response_factory,
+        private readonly StreamFactoryInterface $stream_factory,
+    ) {
+    }
+
+    public function dispatch(): ResponseInterface
+    {
+        $stream = $this->stream_factory->createStream("Hello FrontPage");
+
+        return $this->response_factory->createResponse(200)->withBody($stream);
+    }
+```
+
+```php
+namespace MyModule\V1;
+
+class GetEntity implements Controller
+{
+    public function __construct(
+        private readonly EntityRepository $entityRepository
+        private readonly ResponseFactoryInterface $responseFactory,
+        private readonly StreamFactoryInterface $streamFactory,
+        private readonly RouteResult $routeResult,
+    ) {
+    }
+
+    public function dispatch(): ResponseInterface
+    {
+        $collection $this->routeResult->parameters['collection'];
+        $id = $this->routeResult->parameters['id'];
+
+        $entity = $this->entityRepository->get($collection, $id);
+
+        $stream = $this->stream_factory->createStream(json_encode($entity));
+
+        return $this->response_factory->createResponse(200)->withBody($stream);
+    }
 ```
 
 ### Example nginx configuration
@@ -70,14 +122,14 @@ server {
 
 ### 0.2.0
 
-- [ ] Error handling
+- [ ] Templating and view models
 - [ ] 404 and 500 pages
-- [ ] Debug mode
+- [ ] Error handling
 
 ### 0.3.0
 
+- [ ] Debug mode
 - [ ] Input parsing
-- [ ] Templating and view models
 - [ ] Configuration
 
 ### 0.4.0
