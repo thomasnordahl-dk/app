@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Module\HTTP\Routing;
+namespace Ricotta\App\Module\Web\Routing;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Ricotta\App\Module\HTTP\Routes;
+use Ricotta\App\Module\Web\Routes;
 
 class Router implements Routes
 {

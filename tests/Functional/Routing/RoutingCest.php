@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App\Tests\Functional\Routing;
 
+use Ricotta\App\Module\Web\Routing\RouterException;
 use Ricotta\App\Tests\Functional\Routing\Mock\DeleteController;
 use Ricotta\App\Tests\Functional\Routing\Mock\GetController;
 use Ricotta\App\Tests\Functional\Routing\Mock\HeadController;
@@ -11,25 +12,23 @@ use Ricotta\App\Tests\Functional\Routing\Mock\OptionsController;
 use Ricotta\App\Tests\Functional\Routing\Mock\PatchController;
 use Ricotta\App\Tests\Functional\Routing\Mock\PostController;
 use Ricotta\App\Tests\Functional\Routing\Mock\PutController;
-use Ricotta\App\Module\HTTP\Routing\RouterException;
 use Ricotta\App\Tests\Support\FunctionalTester;
 
 class RoutingCest
 {
     public function appWithRouting(FunctionalTester $I): void
     {
-        $app = $I->getApp();
-        $app->routes['/']->get(GetController::class);
-        $app->routes['/tests/{subpath}/{name}/*']->post(PostController::class);
-        $app->routes['/bad']->get('NonExistentController');
+        $I->getApp()->routes['/']->get(GetController::class);
+        $I->getApp()->routes['/tests/{subpath}/{name}/*']->post(PostController::class);
+        $I->getApp()->routes['/bad']->get('NonExistentController');
 
-        $app->routes['/put']->put(PutController::class);
-        $app->routes['/delete']->delete(DeleteController::class);
-        $app->routes['/patch']->patch(PatchController::class);
-        $app->routes['/options']->options(OptionsController::class);
-        $app->routes['/head']->head(HeadController::class);
+        $I->getApp()->routes['/put']->put(PutController::class);
+        $I->getApp()->routes['/delete']->delete(DeleteController::class);
+        $I->getApp()->routes['/patch']->patch(PatchController::class);
+        $I->getApp()->routes['/options']->options(OptionsController::class);
+        $I->getApp()->routes['/head']->head(HeadController::class);
 
-        $I->assertTrue(isset($app->routes['/']));
+        $I->assertTrue(isset($I->getApp()->routes['/']));
 
         $I->amOnPage('/');
         $I->seeResponseCodeIs(200);

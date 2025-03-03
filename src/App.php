@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Ricotta\App;
 
-use Ricotta\App\Module\HTTP\HHTPModule;
-use Ricotta\App\Module\HTTP\Routes;
-use Ricotta\App\Module\HTTP\Routing\Router;
-use Ricotta\App\Module\HTTP\Server;
+use Ricotta\App\Module\Web\WebModule;
+use Ricotta\App\Module\Web\Routes;
+use Ricotta\App\Module\Web\Routing\Router;
+use Ricotta\App\Module\Web\Server;
 use Ricotta\App\Module\Module;
 use Ricotta\Container\Bootstrapping;
 use Ricotta\Container\Container;
 
 class App
 {
+    public const string MIDDLEWARE_STACK = 'ricotta.app.middleware_stack';
+
     private(set) Bootstrapping $bootstrap;
 
     private(set) Routes $routes;
@@ -25,7 +27,7 @@ class App
 
         $this->bootstrap = new Bootstrapping();
 
-        $this->add(new HHTPModule($router));
+        $this->add(new WebModule($router));
     }
 
     public function run(): void

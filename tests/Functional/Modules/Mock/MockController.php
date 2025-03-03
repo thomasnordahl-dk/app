@@ -7,7 +7,7 @@ namespace Ricotta\App\Tests\Functional\Modules\Mock;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Ricotta\App\Module\HTTP\Controller;
+use Ricotta\App\Module\Web\Controller;
 
 class MockController implements Controller
 {
