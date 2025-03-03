@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Web\Controller;
 use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\Container\Container;
@@ -37,6 +38,7 @@ class RequestHandler implements RequestHandlerInterface
         private readonly ResponseFactoryInterface $responseFactory,
         private readonly StreamFactoryInterface $streamFactory,
         private readonly CallbackHandlerFactory $callbackHandlerFactory,
+        private readonly TemplateEngine $templateEngine,
     ) {
     }
 
@@ -63,8 +65,9 @@ class RequestHandler implements RequestHandlerInterface
     private function createResponse(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->routeResult->isFound === false) {
+            $notFoundPage = $this->templateEngine->render('not-found.html', 'ricotta/app');
             $response = $this->responseFactory->createResponse(404);
-            $response->getBody()->write('Not Found');
+            $response->getBody()->write($notFoundPage);
         } else {
             try {
                 /** @var class-string<Controller> $controller */

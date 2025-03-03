@@ -22,6 +22,10 @@ class TemplateEngine
     {
         $filePath = $this->getFilePath($fileName, $packageName);
 
+        if (filetype($filePath) === 'html') {
+            return include $filePath;
+        }
+
         ob_start();
 
         include $filePath;
@@ -32,7 +36,7 @@ class TemplateEngine
     private function getFilePath(string $fileName, string $packageName): string
     {
         foreach ($this->packagePaths[$packageName] as $path) {
-            $filePath = realpath("{$path}/{$fileName}") ?: '';
+            $filePath = "{$path}/{$fileName}";
 
             if (file_exists($filePath)) {
                 return $filePath;

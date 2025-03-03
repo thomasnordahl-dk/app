@@ -21,6 +21,7 @@ use Ricotta\App\Module\Web\Middleware\RequestHandler;
 use Ricotta\App\Module\Web\Routing\Router;
 use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\App\Module\Module;
+use Ricotta\App\Module\Template\TemplateEngine;
 
 /**
  * @internal
@@ -33,6 +34,10 @@ readonly class WebModule implements Module
 
     public function register(App $app): void
     {
+        $app->bootstrap[TemplateEngine::class]->configure(
+            fn (TemplateEngine $engine) => $engine->addPackagePath('ricotta/app', dirname(__DIR__, 3) . '/templates')
+        );
+
         $app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([]);
         $app->bootstrap[RequestHandler::class]->register()
             ->arguments(['middlewares' => $app->bootstrap[App::MIDDLEWARE_STACK]->reference()]);
