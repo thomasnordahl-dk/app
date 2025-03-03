@@ -16,6 +16,9 @@ use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\Container\Container;
 use Ricotta\Container\Framework\Reference;
 
+/**
+ * Generate a PSR 7 response by passing it through the middleware stack to the web app.
+ */
 class RequestHandler implements RequestHandlerInterface
 {
     private int $counter = 0;

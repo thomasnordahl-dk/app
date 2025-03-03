@@ -25,7 +25,7 @@ use Ricotta\App\Module\Module;
 /**
  * @internal
  */
-readonly class HHTPModule implements Module
+readonly class WebModule implements Module
 {
     public function __construct(private Router $routes)
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App;
 
-use Ricotta\App\Module\Web\HHTPModule;
+use Ricotta\App\Module\Web\WebModule;
 use Ricotta\App\Module\Web\Routes;
 use Ricotta\App\Module\Web\Routing\Router;
 use Ricotta\App\Module\Web\Server;
@@ -27,7 +27,7 @@ class App
 
         $this->bootstrap = new Bootstrapping();
 
-        $this->add(new HHTPModule($router));
+        $this->add(new WebModule($router));
     }
 
     public function run(): void
