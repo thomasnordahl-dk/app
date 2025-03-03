@@ -1,0 +1,9 @@
+actor: FunctionalTester
+suite_namespace: Ricotta\App\Tests\Functional
+modules:
+  # enable helpers as array
+  enabled:
+    - Asserts
+    - Ricotta\App\Tests\Support\Functional
+    - REST:
+        depends: Ricotta\App\Tests\Support\Functional
