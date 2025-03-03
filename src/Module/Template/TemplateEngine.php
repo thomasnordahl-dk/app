@@ -22,10 +22,6 @@ class TemplateEngine
     {
         $filePath = $this->getFilePath($fileName, $packageName);
 
-        if (filetype($filePath) === 'html') {
-            return include $filePath;
-        }
-
         ob_start();
 
         include $filePath;
@@ -35,7 +31,7 @@ class TemplateEngine
 
     private function getFilePath(string $fileName, string $packageName): string
     {
-        foreach ($this->packagePaths[$packageName] as $path) {
+        foreach ($this->packagePaths[$packageName] ?? [] as $path) {
             $filePath = "{$path}/{$fileName}.php";
 
             if (file_exists($filePath)) {
@@ -50,6 +46,6 @@ class TemplateEngine
             }
         }
         
-        return '';
+        return throw new TemplateException("Could not find template {$fileName}\n" . implode("\n", $this->packagePaths[$packageName] ?? []));
     }
 }
