@@ -91,8 +91,9 @@ server {
     index        index.php;
 
     location /favicon.ico {
-    try_files $uri =404;
-
+        try_files $uri =404;
+    }
+    
     location / {
         try_files $uri $uri/index.html /index.php?$query_string;
     }
