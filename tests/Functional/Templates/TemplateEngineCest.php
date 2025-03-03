@@ -23,5 +23,7 @@ class TemplateEngineCest
         // TODO test override template
         // TODO test injection of dependencies
         // TODO test nested templating
+        // TODO no template found
+        // TODO no package paths found
     }
 }
