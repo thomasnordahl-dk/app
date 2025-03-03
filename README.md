@@ -1,3 +1,5 @@
+[![Tests](https://github.com/thomasnordahl-dk/app/actions/workflows/tests.yml/badge.svg)](https://github.com/thomasnordahl-dk/app/actions/workflows/tests.yml)
+
 `ricotta/app`
 =============
 
