@@ -17,8 +17,11 @@ class TemplateEngineCest
         $container = new Container($I->getApp()->bootstrap);
         $engine = $container->get(TemplateEngine::class);
 
-        $result = $engine->render('simple-template.php', 'ricotta/app');
+        $result = $engine->render('simple-template', 'ricotta/app');
 
         $I->assertSame('hello world', $result);
+        // TODO test override template
+        // TODO test injection of dependencies
+        // TODO test nested templating
     }
 }

@@ -36,7 +36,14 @@ class TemplateEngine
     private function getFilePath(string $fileName, string $packageName): string
     {
         foreach ($this->packagePaths[$packageName] as $path) {
-            $filePath = "{$path}/{$fileName}";
+            $filePath = "{$path}/{$fileName}.php";
+
+            if (file_exists($filePath)) {
+                return $filePath;
+            }
+
+            
+            $filePath = "{$path}/{$fileName}.html";
 
             if (file_exists($filePath)) {
                 return $filePath;

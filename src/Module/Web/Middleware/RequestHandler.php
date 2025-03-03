@@ -65,7 +65,7 @@ class RequestHandler implements RequestHandlerInterface
     private function createResponse(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->routeResult->isFound === false) {
-            $notFoundPage = $this->templateEngine->render('not-found.html', 'ricotta/app');
+            $notFoundPage = $this->templateEngine->render('not-found', 'ricotta/app');
             $response = $this->responseFactory->createResponse(404);
             $response->getBody()->write($notFoundPage);
         } else {
