@@ -4,8 +4,10 @@ namespace Ricotta\App\Tests\Functional\Templates;
 
 use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Template\TemplateException;
+use Ricotta\App\Tests\Functional\Templates\Mock\MockView;
 use Ricotta\App\Tests\Support\FunctionalTester;
 use Ricotta\Container\Container;
+use stdClass;
 
 class TemplateEngineCest
 {
@@ -23,8 +25,13 @@ class TemplateEngineCest
 
         $I->expectThrowable(TemplateException::class, fn () => $engine->render('does-not-exist', 'ricotta/app'));
         $I->expectThrowable(TemplateException::class, fn () => $engine->render('html-template', 'unknown/app'));
+        
+        $I->assertSame(
+            'message', 
+            $engine->render('callback-template', 'ricotta/app', [MockView::class => new MockView('message')])
+        );
+        
         // TODO test override template
-        // TODO test injection of dependencies
         // TODO test nested templating
     }
 }
