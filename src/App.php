@@ -9,6 +9,7 @@ use Ricotta\App\Module\Web\Routes;
 use Ricotta\App\Module\Web\Routing\Router;
 use Ricotta\App\Module\Web\Server;
 use Ricotta\App\Module\Module;
+use Ricotta\App\Module\Template\TemplateModule;
 use Ricotta\Container\Bootstrapping;
 use Ricotta\Container\Container;
 
@@ -28,6 +29,7 @@ class App
         $this->bootstrap = new Bootstrapping();
 
         $this->add(new WebModule($router));
+        $this->add(new TemplateModule());
     }
 
     public function run(): void
