@@ -10,8 +10,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Ricotta\App\Module\Web\Controller;
 
-use function var_dump;
-
 readonly class MockController implements Controller
 {
     public function __construct(

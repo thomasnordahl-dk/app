@@ -7,6 +7,9 @@ namespace Ricotta\App\Module\Web\Routing;
 use Psr\Http\Message\ServerRequestInterface;
 use Ricotta\App\Module\Web\Routes;
 
+/**
+ * @internal
+ */
 class Router implements Routes
 {
     /**

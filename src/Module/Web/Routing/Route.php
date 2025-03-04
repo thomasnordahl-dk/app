@@ -6,6 +6,9 @@ namespace Ricotta\App\Module\Web\Routing;
 
 use Ricotta\App\Module\Web\Controller;
 
+/**
+ * @internal
+ */
 readonly class Route
 {
     /**
