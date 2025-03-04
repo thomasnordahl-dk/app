@@ -33,5 +33,6 @@ class TemplateEngineCest
         
         // TODO test override template
         // TODO test nested templating
+        // TODO exception handling and output buffer levels
     }
 }
