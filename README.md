@@ -15,7 +15,9 @@ composer require ricotta/app
 
 ## Usage
 
-Set up an index file in the root of your project with the following contents:
+### Index file
+
+Set up an index file in your selected webroot folder of your project with the following contents:
 
 ```php
 <?php
@@ -24,23 +26,37 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $app = new Ricotta\App();
 
-$app->add(new UserModule());
+$app->run();
+```
+
+### Adding routes
+
+Use the `App::$routes` property to register routes to controller classes:
+
+```php
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = new Ricotta\App();
 
 $app->routes['/']->get(MyModule\GetFrontPage::class);
 $app->routes['/api/v1/{collection}/{id}']->get(MyModule\V1\GetEntity::class);
 $app->routes['/show-product/{id}/*']->get(MyModule\ShowProduct::class);
 
-$app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([
-    $app->bootstrap[Cookiemiddleware::class]->reference(),
-    $app->bootstrap[SessionMiddleware::class]->reference(),
-]);
-
 $app->run();
 ```
 
-```php
-namespace MyModule
+### Controller classes
 
+A controller must implement the `Ricotta\App\Web\Controller` interface.
+
+The PSR-7 `ServerRequestInterface` object and the PSR-17 factory interfaces are available by default for
+dependency injection to components and services.
+
+Controllers does not need to be registered with the container, but are autowired.
+
+```php
 class GetFrontPage implements Controller
 {
     public function __construct(
@@ -55,7 +71,29 @@ class GetFrontPage implements Controller
 
         return $this->response_factory->createResponse(200)->withBody($stream);
     }
+}
 ```
+
+### Dependency Injection
+### Modules
+### Advanced routing
+### Middleware
+### Templates
+### Error Handling
+
+```php
+$app->routes['/api/v1/{collection}/{id}']->get(MyModule\V1\GetEntity::class);
+$app->routes['/show-product/{id}/*']->get(MyModule\ShowProduct::class);
+
+$app->add(new UserModule());
+
+$app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([
+    $app->bootstrap[Cookiemiddleware::class]->reference(),
+    $app->bootstrap[SessionMiddleware::class]->reference(),
+]);
+
+```
+
 
 ```php
 namespace MyModule\V1;
@@ -92,10 +130,6 @@ server {
     root         /home/my-user/project-folder/demo;
     index        index.php;
 
-    location /favicon.ico {
-        try_files $uri =404;
-    }
-    
     location / {
         try_files $uri $uri/index.html /index.php?$query_string;
     }
@@ -106,9 +140,6 @@ server {
         fastcgi_pass   unix:/run/php/php8.4-fpm.sock;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
-        fastcgi_buffering off;
-        fastcgi_buffers 16 16k;
-        fastcgi_buffer_size 32k;
         include fastcgi_params;
     }
 }
@@ -127,7 +158,7 @@ server {
 
 - [x] Templating and view models
 - [x] 404 and 500 pages
-- [ ] Error handling
+- [x] Error handling
 
 ### 0.3.0
 

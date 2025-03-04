@@ -15,6 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Ricotta\App\App;
 use Ricotta\App\Module\Web\Middleware\CallbackHandlerFactory;
 use Ricotta\App\Module\Web\Middleware\RequestHandler;
@@ -60,6 +61,7 @@ readonly class WebModule implements Module
             });
 
         $app->bootstrap->allowAutowiring(Controller::class);
+        $app->bootstrap->allowAutowiring(MiddlewareInterface::class);
 
         $app->bootstrap[Server::class]->register();
 
