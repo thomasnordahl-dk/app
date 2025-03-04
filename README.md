@@ -5,6 +5,53 @@
 
 This is the main application for Ricotta. Use this to create a new Ricotta project.
 
+
+## Roadmap
+
+### 0.1.0
+
+- [x] Basic application structure
+- [x] Routing
+- [x] Middleware
+- [x] Controllers
+
+### 0.2.0
+
+- [x] Templating and view models
+- [x] 404 and 500 pages
+- [x] Error handling
+
+### 0.3.0
+
+- [ ] CodeSniffer
+- [ ] CodeBeautifier
+- [ ] Contributing guidelines
+    - [ ] Code coverage - _"While the quality of a test can not be asserted by coverage, the presence of tests certainly can. So we require 100% coverage. Pull/Merge Requests that do not have 100% test coverage will not be accepted."_
+    - [ ] strict types
+- [ ] Coverage Report ?
+
+### 0.4.0
+- [ ] Input parsing
+- [ ] Debug error handler
+- [ ] Configuration
+
+### 0.5.0
+- [ ] CLI commands
+
+### 0.6.0
+- [ ] Skeleton project?
+- [ ] Configuration Seeding
+
+### 1.0.0
+
+- [ ] Stable release
+- [ ] Interface facades?
+- [ ] Documentation
+
+### 2.0.0
+
+- [ ] Swoole support
+
 ## Installation
 
 To install Ricotta, create a new composer project and require the `ricotta/app` package.
@@ -361,41 +408,3 @@ server {
     }
 }
 ```
-
-## Roadmap
-
-### 0.1.0
-
-- [x] Basic application structure
-- [x] Routing
-- [x] Middleware
-- [x] Controllers
-
-### 0.2.0
-
-- [x] Templating and view models
-- [x] 404 and 500 pages
-- [x] Error handling
-
-### 0.3.0
-
-- [ ] Debug mode?
-- [ ] Input parsing
-- [ ] Configuration
-
-### 0.4.0
-- [ ] CLI commands
-
-### 0.5.0
-- [ ] Skeleton project
-- [ ] Configuration Seeding
-
-### 1.0.0
-
-- [ ] Stable release
-- [ ] Contributing guidelines
-- [ ] Documentation
-
-### 2.0.0
-
-- [ ] Swoole support
