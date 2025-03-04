@@ -35,14 +35,13 @@ Use the `App::$routes` property to register routes to controller classes:
 
 ```php
 <?php
+# {root}/webroot/index.php
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 $app = new Ricotta\App();
 
 $app->routes['/']->get(MyModule\GetFrontPage::class);
-$app->routes['/api/v1/{collection}/{id}']->get(MyModule\V1\GetEntity::class);
-$app->routes['/show-product/{id}/*']->get(MyModule\ShowProduct::class);
 
 $app->run();
 ```
@@ -75,50 +74,268 @@ class GetFrontPage implements Controller
 ```
 
 ### Dependency Injection
-### Modules
-### Advanced routing
-### Middleware
-### Templates
-### Error Handling
+
+Services and components can be bootstrapped and configured for dependency injection using the bootstrapping
+object on the `App` instance.
 
 ```php
-$app->routes['/api/v1/{collection}/{id}']->get(MyModule\V1\GetEntity::class);
+$app->bootstrap['MyService::class']->register();
+```
+
+The bootstrapping object is an instance of the `ricotta/container` `Bootstrapping` class. See the [`ricotta/container` documentation](https://github.com/thomasnordahl-dk/container) for further information.
+
+### Modules
+
+Bootstrappings and routings can be gathered into module classes that implement the `Ricotta\App\Module` interface.
+
+```php
+<?php
+
+class MyModule implements Ricotta\App\Module
+{
+    public function register(Ricotta\App\App $app): void
+    {
+        $app->routes['/']->get(MyModule\GetFrontPage::class);
+        $app->bootstrap['MyService::class']->register();
+    }
+}
+```
+
+### Config files
+
+Configurations can also be gathered in php script files that are loaded through the app. This is useful for
+structuring project bootstrappings in a dedicated file instead of the index file.
+
+```php
+<?php
+# {root}/bootstrap.php
+
+/** @var Ricotta\App\App $app */
+
+$app->add(new MyModule());
+
+```
+
+The bootstrapping file can then be loaded via the app.
+
+```php
+<?php
+# {root}/webroot/index.php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = new Ricotta\App();
+
+$app->load(dirname(__DIR__) . '/bootstrapping.php');
+
+$app->run();
+```
+
+### Advanced routing
+
+Routes can be defined with named placeholders for subpaths and a wildcard for the remainder of a dynamic url.
+
+The placeholders are dynamic and the actual subpath is availabe under this name via the `Ricotta\App\Web\Routing\RouteResult` object's `$route` property.
+
+The wildcard is also dynamic and can be looked up via the `$route` property on the `Ricotta\App\Web\Routing\RouteResult` object.
+
+```php
 $app->routes['/show-product/{id}/*']->get(MyModule\ShowProduct::class);
-
-$app->add(new UserModule());
-
-$app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([
-    $app->bootstrap[Cookiemiddleware::class]->reference(),
-    $app->bootstrap[SessionMiddleware::class]->reference(),
-]);
-
 ```
 
 
 ```php
 namespace MyModule\V1;
 
-class GetEntity implements Controller
+class ShowProduct implements Controller
 {
     public function __construct(
-        private readonly EntityRepository $entityRepository
-        private readonly ResponseFactoryInterface $responseFactory,
-        private readonly StreamFactoryInterface $streamFactory,
-        private readonly RouteResult $routeResult,
+        private readonly ProductRepository $productRepository,
+        private readonly Psr\Http\Message\ResponseFactoryInterface $responseFactory,
+        private readonly Psr\Http\Factory\StreamFactoryInterface $streamFactory,
+        private readonly Ricotta\App\Web\Routing\RouteResult $routeResult,
     ) {
     }
 
-    public function dispatch(): ResponseInterface
+    public function dispatch(): Psr\Http\Message\ResponseInterface
     {
-        $collection $this->routeResult->parameters['collection'];
-        $id = $this->routeResult->parameters['id'];
+        $id = $this->routeResult->route?->parameters['id'];
+        $wildcard = $this->routeResult->route?->wildcard;
 
-        $entity = $this->entityRepository->get($collection, $id);
-
-        $stream = $this->stream_factory->createStream(json_encode($entity));
-
-        return $this->response_factory->createResponse(200)->withBody($stream);
+        // Create response.
     }
+```
+
+### Middleware
+
+The App passes requests and responses through a stack of PSR-15 middleware instances.
+
+The list can be defined using actual instances or container references to the middleware class to resolve the middleware through the container when needed.
+
+The list is referenced with the container component name defined with the constant `Ricotta\App\App::MIDDLEWARE_STACK`.
+
+```php
+$app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([
+    new CookieMiddleware(),
+    $app->bootstrap[SessionMiddleware::class]->reference(),
+]);
+```
+
+### Templates
+
+The Ricotta App comes with a modular template engine. The engine is based on plain PHP.
+
+To render a template, a template folder needs to be registered in relation to a package name. The recommended
+best practice is to use composer package names, but any string identifier is allowed.
+
+```php
+$app->bootstrap[TemplateEngine::class]->configure(
+    fn (TemplateEngine $templates) => $templates->addPackagePath('vendor/name', '/path/to/vendor/name/templates')
+);
+```
+
+Templates can be plain HTML or a PHP script file.
+
+```html
+<!--path/to/vendor/name/templates/frontpage.html -->
+
+<html>
+    <body>
+        <h1>Hello world</h1>
+    </body>
+</html>
+```
+
+The template engine can then be used to render this file into a string result.
+
+```php
+class ShowFrontPage implements Controller
+{
+    public function __construct(
+        private readonly Psr\Http\Message\ResponseFactoryInterface $responseFactory,
+        private readonly Ricotta\App\Template\TemplateEngine $templateEngine,
+    ) { }
+
+    public function dispatch(): Psr\Http\Message\ResponseInterface
+    {
+        $content = $this->templateEngine->render('frontpage', 'ricotta/app');
+
+        $response = $this->responseFactory->createResponse(200);
+        $response->getBody()->write($content);
+
+        return $response;
+    }
+```
+
+Multiple paths can be defined for searching for templates and the template engine will scan the paths for
+the template file. The paths are scanned by the most recently added first. The first path to contain a matching file name is used.
+
+```html
+<!--path/to/vendor/extension/templates/frontpage.html -->
+
+<html>
+    <body>
+        <h1>Hello override</h1>
+    </body>
+</html>
+```
+
+```php
+
+$app->bootstrap[TemplateEngine::class]->configure(
+    fn (TemplateEngine $templates) => $templates->addPackagePath('vendor/name', '/path/to/vendor/name/templates')
+);
+
+$app->bootstrap[TemplateEngine::class]->configure(
+    fn (TemplateEngine $templates) => $templates->addPackagePath('vendor/name', '/path/to/vendor/extension/templates')
+);
+
+```
+
+The variables can be injected via the 3rd argument to the `TemplateEngine::render()` method.
+
+```php
+```
+
+```php
+<?php
+# path/to/vendor/extension/templates/frontpage.php
+/** @var View $view */
+?>
+<html>
+    <body>
+        <h1><?=$view->message?></h1>
+    </body>
+</html>
+```
+
+```php
+public function dispatch(): Psr\Http\Message\ResponseInterface
+{
+    $view = new View();
+    $view->message = 'Hello World';
+
+    $content = $this->templateEngine->render('frontpage', 'ricotta/app', ['view' => $view]);
+
+    $response = $this->responseFactory->createResponse(200);
+    $response->getBody()->write($content);
+
+    return $response;
+}
+```
+
+Templates can be defined with callbacks. Callback functions have their arguments resolved via the injections
+given to `TemplateEngine::render()` and the dependency injection container as well, which makes it useful for resolving services, like the `TemplateEngine` itself for nested templates.
+
+```php
+<?php
+# path/to/vendor/extension/templates/frontpage.php
+return function (View $view, TemplateEngine $templateEngine) {
+?>
+    <html>
+        <body>
+            <h1><?= $view->message ?></h1>
+            <content>
+                <?= $templateEngine->render('content', 'vendor/name') ?>
+            </content>
+            </body>
+    </html>
+<?php
+};
+```
+
+### Error Handling
+
+By default the Ricotta app will display a nice error page that suppresses errors thrown via middleware or controllers.
+
+This can be changed by registering a new implementation of the interface `Ricotta\App\Web\Error`.
+
+The error handler should handle the error somehow and return a resulting PSR-7 response instance.
+
+```php
+class LogErrorHandler implements Ricotta\App\Web\Error\ErrorHandler
+{
+    public function __construct(
+        private readonly Psr\Http\Factory\ResponseFactoryInterface $responseFactory,
+        private readonly Psr\Log\LoggerInterface $logger,
+    ) {}
+
+    public function handle(\Throwable $error): Psr\Http\Message\ResponseInterface
+    {
+        $this->logger->error($error->getMessage());
+
+        $response = $this->responseFactory->createResponse(500);
+        $response->getBody()->write('Internal Server Error');
+
+        return $response;
+    }
+}
+```
+
+The implementation should be registered as the actual type for the `Ricotta\App\Web\Error\ErrorHandler` interface.
+
+```php
+$app->bootstrap[Ricotta\App\Web\Error\ErrorHandler::class]->register()->type(LogErrorHandler::class);
 ```
 
 ### Example nginx configuration
@@ -162,7 +379,7 @@ server {
 
 ### 0.3.0
 
-- [ ] Debug mode
+- [ ] Debug mode?
 - [ ] Input parsing
 - [ ] Configuration
 
