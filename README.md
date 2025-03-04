@@ -302,9 +302,6 @@ $app->bootstrap[TemplateEngine::class]->configure(
 The variables can be injected via the 3rd argument to the `TemplateEngine::render()` method.
 
 ```php
-```
-
-```php
 <?php
 # path/to/vendor/extension/templates/frontpage.php
 /** @var View $view */
