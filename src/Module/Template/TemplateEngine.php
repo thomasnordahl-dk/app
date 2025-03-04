@@ -6,6 +6,7 @@ namespace Ricotta\App\Module\Template;
 
 use Closure;
 use Ricotta\Container\Container;
+use Throwable;
 
 class TemplateEngine
 {   
@@ -35,14 +36,22 @@ class TemplateEngine
         $filePath = $this->getFilePath($fileName, $packageName);
 
         ob_start();
+        extract($injections);
+        try {
 
-        $value = include $filePath;
+            $value = include $filePath;
 
-        if (is_callable($value)) {
-            $this->container->call(Closure::fromCallable($value), $injections);
+            if (is_callable($value)) {
+                $this->container->call(Closure::fromCallable($value), $injections);
+            }
+    
+            return ob_get_clean() ?: '';
+            
+        } catch (Throwable $error) {
+            ob_end_clean();
+
+            throw $error;
         }
-
-        return ob_get_clean() ?: '';
     }
 
     /**

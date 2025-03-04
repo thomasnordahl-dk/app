@@ -2,6 +2,7 @@
 
 namespace Ricotta\App\Tests\Functional\Templates;
 
+use Error;
 use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Template\TemplateException;
 use Ricotta\App\Tests\Functional\Templates\Mock\MockView;
@@ -23,16 +24,31 @@ class TemplateEngineCest
         $I->assertSame('hello world', $engine->render('simple-template', 'ricotta/app'));
         $I->assertSame('hello world', $engine->render('html-template', 'ricotta/app'));
 
-        $I->expectThrowable(TemplateException::class, fn () => $engine->render('does-not-exist', 'ricotta/app'));
-        $I->expectThrowable(TemplateException::class, fn () => $engine->render('html-template', 'unknown/app'));
+        $I->expectThrowable(TemplateException::class, fn() => $engine->render('does-not-exist', 'ricotta/app'));
+        $I->expectThrowable(TemplateException::class, fn() => $engine->render('html-template', 'unknown/app'));
+
+        ob_start();
         
+        $I->expectThrowable(Error::class, fn () => $engine->render('throws-from-nested', 'ricotta/app'));
+        
+        ob_end_clean();
+        
+        $I->assertSame(0, ob_get_level());
+
         $I->assertSame(
             'message', 
-            $engine->render('callback-template', 'ricotta/app', [MockView::class => new MockView('message')])
+            $engine->render('callback-template', 'ricotta/app', ['view' => new MockView('message')])
         );
         
-        // TODO test override template
-        // TODO test nested templating
-        // TODO exception handling and output buffer levels
+        $engine->addPackagePath('ricotta/app', __DIR__ . '/override-templates');
+        $I->assertSame('hello override', $engine->render('html-template', 'ricotta/app'));
+
+        $I->assertSame('Message: hello override', $engine->render('nested-template', 'ricotta/app'));
+
+        $I->assertSame(
+            'message', 
+            $engine->render('callback-template', 'ricotta/app', ['view' => new MockView('message')]),
+            'uses a non-callback override to test availability of injections directly in template'
+        );
     }
 }
