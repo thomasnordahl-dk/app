@@ -76,9 +76,9 @@ class RequestHandler implements RequestHandlerInterface
                     ->create($controller, [ServerRequestInterface::class => $request])
                     ->dispatch();
             } catch (\Throwable $error) {
-                $message = $this->streamFactory->createStream('Internal Server Error: ' . $error->getMessage());
+                $errorPage = $this->templateEngine->render('error-page', 'ricotta/app');
+                $message = $this->streamFactory->createStream($errorPage);
                 $response = $this->responseFactory->createResponse(500)->withBody($message);
-                $response->getBody()->write('Internal Server Error');
             }
         }
 

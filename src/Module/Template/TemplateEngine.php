@@ -34,9 +34,9 @@ class TemplateEngine
     public function render(string $fileName, string $packageName, array $injections = []): string
     {
         $filePath = $this->getFilePath($fileName, $packageName);
+        extract($injections);
 
         ob_start();
-        extract($injections);
         try {
 
             $value = include $filePath;
@@ -45,7 +45,11 @@ class TemplateEngine
                 $this->container->call(Closure::fromCallable($value), $injections);
             }
     
-            return ob_get_clean() ?: '';
+            $contents = ob_get_contents() ?: '';
+
+            ob_end_clean();
+
+            return $contents;
             
         } catch (Throwable $error) {
             ob_end_clean();
