@@ -125,8 +125,8 @@ server {
 
 ### 0.2.0
 
-- [ ] Templating and view models
-- [ ] 404 and 500 pages
+- [x] Templating and view models
+- [x] 404 and 500 pages
 - [ ] Error handling
 
 ### 0.3.0

@@ -12,6 +12,9 @@ use function explode;
 use function implode;
 use function preg_match;
 
+/**
+ * @internal
+ */
 class Definition
 {
     private const string VALID_PATTERN_REGEX = '#^(/(?:[A-Za-z0-9\-._~!$&\'()*+,;=:@%]+|\{[A-Za-z0-9_]+\}))*/*\*?$#';
