@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App;
 
+use InvalidArgumentException;
 use Ricotta\App\Module\Web\WebModule;
 use Ricotta\App\Module\Web\Routes;
 use Ricotta\App\Module\Web\Routing\Router;
@@ -42,5 +43,19 @@ class App
     public function add(Module $module): void
     {
         $module->register($this);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function load(string $path): void
+    {
+        if (! file_exists($path) || substr($path, -3) !== 'php') {
+            throw new InvalidArgumentException("{$path} is not a PHP file");
+        }
+
+        $app = $this;
+
+        include $path;
     }
 }
