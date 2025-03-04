@@ -22,7 +22,6 @@ use Ricotta\App\Module\Web\Middleware\RequestHandler;
 use Ricotta\App\Module\Web\Routing\Router;
 use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\App\Module\Module;
-use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Web\Error\ErrorHandler;
 use Ricotta\App\Module\Web\Error\ErrorPageHandler;
 use Ricotta\App\Module\Web\Middleware\WebApp;
@@ -39,10 +38,6 @@ readonly class WebModule implements Module
     public function register(App $app): void
     {
         $app->bootstrap[WebApp::class]->register();
-
-        $app->bootstrap[TemplateEngine::class]->configure(
-            fn (TemplateEngine $engine) => $engine->addPackagePath('ricotta/app', dirname(__DIR__, 3) . '/templates')
-        );
 
         $app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([]);
         $app->bootstrap[RequestHandler::class]->register()
