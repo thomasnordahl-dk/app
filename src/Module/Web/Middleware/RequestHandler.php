@@ -39,11 +39,15 @@ class RequestHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         try {
-            return $this->createReponse($request);
+            $response = $this->createReponse($request);
         } catch(\Throwable $error)
         {
-            return $this->errorHandler->handle($error);
+            $response = $this->errorHandler->handle($error);
         }
+
+        $this->counter = 0;
+
+        return $response;
     }
 
     private function createReponse(ServerRequestInterface $request): ResponseInterface
