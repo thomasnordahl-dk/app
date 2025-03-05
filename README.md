@@ -100,7 +100,7 @@ A controller must implement the `Ricotta\App\Web\Controller` interface.
 The PSR-7 `ServerRequestInterface` object and the PSR-17 factory interfaces are available by default for
 dependency injection to components and services.
 
-Controllers does not need to be registered with the container, but are autowired.
+Controllers do not need to be registered with the container, but are autowired.
 
 ```php
 class GetFrontPage implements Controller
@@ -232,6 +232,8 @@ $app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([
 
 The Ricotta App comes with a modular template engine. The engine is based on plain PHP.
 
+#### Adding a package path
+
 To render a template, a template folder needs to be registered in relation to a package name. The recommended
 best practice is to use composer package names, but any string identifier is allowed.
 
@@ -240,6 +242,8 @@ $app->bootstrap[TemplateEngine::class]->configure(
     fn (TemplateEngine $templates) => $templates->addPackagePath('vendor/name', '/path/to/vendor/name/templates')
 );
 ```
+
+#### Creating a template
 
 Templates can be plain HTML or a PHP script file.
 
@@ -252,6 +256,8 @@ Templates can be plain HTML or a PHP script file.
     </body>
 </html>
 ```
+
+#### Rendering a template
 
 The template engine can then be used to render this file into a string result.
 
@@ -273,6 +279,8 @@ class ShowFrontPage implements Controller
         return $response;
     }
 ```
+
+#### Overriding templates
 
 Multiple paths can be defined for searching for templates and the template engine will scan the paths for
 the template file. The paths are scanned by the most recently added first. The first path to contain a matching file name is used.
@@ -299,19 +307,9 @@ $app->bootstrap[TemplateEngine::class]->configure(
 
 ```
 
-The variables can be injected via the 3rd argument to the `TemplateEngine::render()` method.
+#### Injecting variables
 
-```php
-<?php
-# path/to/vendor/extension/templates/frontpage.php
-/** @var View $view */
-?>
-<html>
-    <body>
-        <h1><?=$view->message?></h1>
-    </body>
-</html>
-```
+The variables can be injected via the 3rd argument to the `TemplateEngine::render()` method.
 
 ```php
 public function dispatch(): Psr\Http\Message\ResponseInterface
@@ -327,6 +325,20 @@ public function dispatch(): Psr\Http\Message\ResponseInterface
     return $response;
 }
 ```
+
+```php
+<?php
+# path/to/vendor/extension/templates/frontpage.php
+/** @var View $view */
+?>
+<html>
+    <body>
+        <h1><?=$view->message?></h1>
+    </body>
+</html>
+```
+
+#### Callback templates
 
 Templates can be defined with callbacks. Callback functions have their arguments resolved via the injections
 given to `TemplateEngine::render()` and the dependency injection container as well, which makes it useful for resolving services, like the `TemplateEngine` itself for nested templates.
@@ -352,7 +364,7 @@ return function (View $view, TemplateEngine $templateEngine) {
 
 By default the Ricotta app will display a nice error page that suppresses errors thrown via middleware or controllers.
 
-This can be changed by registering a new implementation of the interface `Ricotta\App\Web\Error`.
+This can be changed by registering a new implementation of the interface `Ricotta\App\Web\Error\ErrorHandler`.
 
 The error handler should handle the error somehow and return a resulting PSR-7 response instance.
 
