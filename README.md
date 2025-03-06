@@ -20,7 +20,7 @@ This is the main application for Ricotta. Use this to create a new Ricotta proje
 - [x] Templating and view models
 - [x] 404 and 500 pages
 - [x] Error handling
-- [ ] Result model
+- [x] Result model
 - [x] CodeSniffer
 - [x] CodeBeautifier
 - [x] Contributing guidelines
@@ -274,6 +274,7 @@ class ShowFrontPage implements Controller
 
         return $response;
     }
+}
 ```
 
 #### Overriding templates
@@ -355,6 +356,99 @@ return function (View $view, TemplateEngine $templateEngine) {
 <?php
 };
 ```
+
+### Result models
+
+Ricotta containers can return PSR-7 responses and it can return instances of the `Ricotta\App\Web\Result` interface. This interface offers a convenient way to wrap common PSR-7 response creation flows into a simple data
+model class.
+
+The interface defines one method:
+
+```php
+public function createResponse(Ricotta\Container\Container $container): Psr/Http/ResponseInterface;
+```
+
+`ricotta/app` comes with a set of available result models in the namespace `Ricotta\App\Web\Result`:
+
+#### `HTMLResult`
+
+Creates responses based on a specific template using the template engine.
+
+```diff
+class ShowFrontPage implements Controller
+{
+-   public function __construct(
+-       private readonly Psr\Http\Message\ResponseFactoryInterface $responseFactory,
+-       private readonly Ricotta\App\Template\TemplateEngine $templateEngine,
+-   ) { }
+
+-   public function dispatch(): Psr\Http\Message\ResponseInterface
++   public function dispatch(): Ricotta\App\Web\Result\HTMLResult
+    {
+        $view = new View();
+        $view->message = 'Hello World';
+
+-       $content = $this->templateEngine->render('frontpage', 'ricotta/app', ['view' => $view]);
+-
+-       $response = $this->responseFactory->createResponse(200);
+-       $response->getBody()->write($content);
+-
+-       return $response;
++       new Ricotta\App\Result\HtmlResult('frontpage', 'ricotta/app', ['view' => $view]);
+    }
+}
+```
+
+#### `JSONResult`
+
+Creates JSON responses from data.
+
+```php
+use Ricotta\App\Module\Web\Controller;
+use Ricotta\App\Module\Web\Result\JSONResult;
+
+class GetData implements Controller
+{
+    public function dispatch(): JSONResult
+    {
+        return new JSONResult(['data' => 'is encoded as json']);
+    }
+}
+``` 
+
+#### `NotFoundResult`
+
+Creates a friendly HTML page for not found results using the default template for not-found pages used by default by the Ricotta app. 
+
+
+```php
+use Ricotta\App\Module\Web\Controller;
+use Ricotta\App\Module\Web\Result;
+use Ricotta\App\Module\Web\Result\HTMLResult;
+use Ricotta\App\Module\Web\Result\NotFoundResult;
+use Ricotta\App\Module\Web\Routing\RouteResult;
+
+class GetProduct implements Controller
+{
+    
+
+    public function __construct(private ProductRepository $repository, private RouteResult $routeResult)
+    {
+    }
+
+    public function dispatch(): Result
+    {
+        $id = $this->routeResult->route?->placeholdes['id'] ?? '';
+        $product = $this->repository->get($id);
+
+        if ($product === null) {
+            return new NotFoundResult();
+        }
+
+        return new HTMLResult('product-page', 'vendor/name', ['product' => $product]);
+    }
+}
+``` 
 
 ### Error Handling
 
