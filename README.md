@@ -5,7 +5,10 @@
 
 This is the main application for Ricotta. Use this to create a new Ricotta project.
 
-See the roadmap [here](ROADMAP.md).
+- [Licence](LICENCE.md)
+- [Contributing guidelines](CONTRIBUTING.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Road map](ROADMAP.md)
 
 ## Installation
 
@@ -441,28 +444,4 @@ The implementation should be registered as the actual type for the `Ricotta\App\
 
 ```php
 $app->bootstrap[Ricotta\App\Web\Error\ErrorHandler::class]->register()->type(LogErrorHandler::class);
-```
-
-### Example nginx configuration
-
-```
-server {
-    listen       127.0.0.1:80;
-    server_name  localhost;
-    root         /home/my-user/project-folder/demo;
-    index        index.php;
-
-    location / {
-        try_files $uri $uri/index.html /index.php?$query_string;
-    }
-    
-    location ~ \.php$ {
-        try_files $uri /index.php =404;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass   unix:/run/php/php8.4-fpm.sock;
-        fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
 ```
