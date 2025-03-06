@@ -23,8 +23,8 @@ This is the main application for Ricotta. Use this to create a new Ricotta proje
 - [ ] Result model
 - [x] CodeSniffer
 - [x] CodeBeautifier
-- [ ] Contributing guidelines
-    - [ ] Code coverage - _"While the quality of a test can not be asserted by coverage, the presence of tests certainly can. So we require 100% coverage. Pull/Merge Requests that do not have 100% test coverage will not be accepted."_
+- [x] Contributing guidelines
+- [x] Code of conduct
 
 ### 0.3.0
 - [ ] Input parsing
