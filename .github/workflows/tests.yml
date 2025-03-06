@@ -27,4 +27,10 @@ jobs:
           COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GH_TOKEN }}"}}'
 
       - name: Run tests
-        run: composer run all
+        run: composer run tests
+      
+      - name: Run PHPStan
+        run: composer run phpstan
+      
+      - name: Run PHPCS
+        run: composer run phpcs
