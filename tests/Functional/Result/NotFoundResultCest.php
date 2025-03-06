@@ -25,17 +25,4 @@ class NotFoundResultCest
         $I->assertSame($expectedBody, $response->getBody()->getContents());
         $I->assertSame('text/html; charset=utf-8', $response->getHeaderLine('content-type'));
     }
-
-    public function testBadData(FunctionalTester $I): void
-    {
-        $container = new Container($I->getApp()->bootstrap);
-
-        $bad_array = [];
-
-        $bad_array['self'] = &$bad_array; // Can not encode circular reference to JSON
-
-        $result = new JSONResult($bad_array);
-
-        $I->expectThrowable(RuntimeException::class, fn () => $result->createResponse($container));
-    }
 }
