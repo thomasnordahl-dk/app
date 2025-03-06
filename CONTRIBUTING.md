@@ -21,6 +21,6 @@ Testing
 -------
 
 - **Tests**: Write tests using Codeception.
-- **Coverage**: Ensure 100% code coverage for all changes.
+- **Coverage**: Ensure 100% code coverage for all changes. Run `vendor/bin/codecept run --coverage --coverage-html` to generate a coverage report.
 
 Thank you for your contributions!

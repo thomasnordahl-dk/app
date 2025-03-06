@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Ricotta\App\Tests\Functional\Result;
 
 use Ricotta\App\Module\Template\TemplateEngine;
-use Ricotta\App\Module\Web\Routing\Result\HTMLResult;
-use Ricotta\App\Tests\Functional\Result\Mock\MockController;
+use Ricotta\App\Module\Web\Result\HTMLResult;
 use Ricotta\App\Tests\Support\FunctionalTester;
 use Ricotta\Container\Container;
 

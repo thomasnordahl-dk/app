@@ -20,7 +20,7 @@ This is the main application for Ricotta. Use this to create a new Ricotta proje
 - [x] Templating and view models
 - [x] 404 and 500 pages
 - [x] Error handling
-- [ ] Result model
+- [x] Result model
 - [x] CodeSniffer
 - [x] CodeBeautifier
 - [x] Contributing guidelines
@@ -355,6 +355,23 @@ return function (View $view, TemplateEngine $templateEngine) {
 <?php
 };
 ```
+
+### Result models
+
+Ricotta containers can return PSR-7 responses and it can return instances of the `Ricotta\App\Web\Result` interface. This interface offers a convenient way to wrap common PSR-7 response creation flows into a simple data
+model class.
+
+The interface defines one method:
+
+```php
+public function createResponse(Ricotta\Container\Container $container): Psr/Http/ResponseInterface;
+```
+
+`ricotta/app` comes with a set of available result models:
+
+- `Ricotta\App\Web\Result\HTMLResult`: Creates responses based on a specific template using the template engine.
+- `Ricotta\App\Web\Result\JSONResult`: Creates JSON responses from data.
+- `Ricotta\App\Web\Result\NotFoundResult`: Creates a friendly HTML page for not found results using the default template for not-found pages used by default by the Ricotta app. 
 
 ### Error Handling
 
