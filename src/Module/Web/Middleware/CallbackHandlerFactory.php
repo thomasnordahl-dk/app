@@ -7,6 +7,8 @@ namespace Ricotta\App\Module\Web\Middleware;
 use Closure;
 
 /**
+ * @internal
+ *
  * Create callback handler instances
  */
 class CallbackHandlerFactory

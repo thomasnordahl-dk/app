@@ -15,12 +15,16 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Ricotta\App\App;
 use Ricotta\App\Module\Web\Middleware\CallbackHandlerFactory;
 use Ricotta\App\Module\Web\Middleware\RequestHandler;
 use Ricotta\App\Module\Web\Routing\Router;
 use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\App\Module\Module;
+use Ricotta\App\Module\Web\Error\ErrorHandler;
+use Ricotta\App\Module\Web\Error\ErrorPageHandler;
+use Ricotta\App\Module\Web\Middleware\WebApp;
 
 /**
  * @internal
@@ -33,11 +37,15 @@ readonly class WebModule implements Module
 
     public function register(App $app): void
     {
+        $app->bootstrap[WebApp::class]->register();
+
         $app->bootstrap[App::MIDDLEWARE_STACK]->register()->value([]);
         $app->bootstrap[RequestHandler::class]->register()
             ->arguments(['middlewares' => $app->bootstrap[App::MIDDLEWARE_STACK]->reference()]);
 
         $app->bootstrap[CallbackHandlerFactory::class]->register();
+
+        $app->bootstrap[ErrorHandler::class]->register()->type(ErrorPageHandler::class);
 
         $app->bootstrap[Router::class]->register()->value($this->routes);
         $app->bootstrap[RouteResult::class]->register()
@@ -48,6 +56,7 @@ readonly class WebModule implements Module
             });
 
         $app->bootstrap->allowAutowiring(Controller::class);
+        $app->bootstrap->allowAutowiring(MiddlewareInterface::class);
 
         $app->bootstrap[Server::class]->register();
 

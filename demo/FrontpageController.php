@@ -7,20 +7,14 @@ namespace Ricotta\App\Demo;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Web\Controller;
+use Ricotta\App\Module\Web\Result\HTMLResult;
 
 readonly class FrontpageController implements Controller
 {
-    public function __construct(
-        private ResponseFactoryInterface $responseFactory,
-        private StreamFactoryInterface $streamFactory
-    ) {
-    }
-
-    public function dispatch(): ResponseInterface
+    public function dispatch(): HTMLResult
     {
-        $body = $this->streamFactory->createStream('Demo front page');
-
-        return $this->responseFactory->createResponse(200)->withBody($body);
+        return new HTMLResult('front-page', 'ricotta/app');
     }
 }

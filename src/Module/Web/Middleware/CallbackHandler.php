@@ -10,6 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
+ * @internal
+ *
  * Resolves the next response via a provided callback and caches it to ensure the next response is
  * only fetched once.
  */
