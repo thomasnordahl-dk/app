@@ -15,7 +15,6 @@ readonly class Server
         private RequestHandler $requestHandler,
         private ServerRequestInterface $request,
     ) {
-
     }
 
     public function dispatch(): void

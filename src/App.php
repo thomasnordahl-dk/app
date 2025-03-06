@@ -18,9 +18,9 @@ class App
 {
     public const string MIDDLEWARE_STACK = 'ricotta.app.middleware_stack';
 
-    private(set) Bootstrapping $bootstrap;
+    public private(set) Bootstrapping $bootstrap;
 
-    private(set) Routes $routes;
+    public private(set) Routes $routes;
 
     public function __construct()
     {

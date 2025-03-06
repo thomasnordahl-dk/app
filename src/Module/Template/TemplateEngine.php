@@ -9,8 +9,10 @@ use Ricotta\Container\Container;
 use Throwable;
 
 class TemplateEngine
-{   
-    public function __construct(private readonly Container $container) {}
+{
+    public function __construct(private readonly Container $container)
+    {
+    }
     /**
      * @var array<string, list<string>> $packagePaths
      */
@@ -27,7 +29,7 @@ class TemplateEngine
      * @param string               $fileName
      * @param string               $packageName
      * @param array<string, mixed> $injections
-     * 
+     *
      * @return string
      * @throws TemplateException
      */
@@ -38,19 +40,17 @@ class TemplateEngine
 
         ob_start();
         try {
-
             $value = include $filePath;
 
             if (is_callable($value)) {
                 $this->container->call(Closure::fromCallable($value), $injections);
             }
-    
+
             $contents = ob_get_contents() ?: '';
 
             ob_end_clean();
 
             return $contents;
-            
         } catch (Throwable $error) {
             ob_end_clean();
 
@@ -70,14 +70,16 @@ class TemplateEngine
                 return $filePath;
             }
 
-            
+
             $filePath = "{$path}/{$fileName}.html";
 
             if (file_exists($filePath)) {
                 return $filePath;
             }
         }
-        
-        return throw new TemplateException("Could not find template {$fileName}\n" . implode("\n", $this->packagePaths[$packageName] ?? []));
+
+        return throw new TemplateException(
+            "Could not find template {$fileName}\n" . implode("\n", $this->packagePaths[$packageName] ?? [])
+        );
     }
 }

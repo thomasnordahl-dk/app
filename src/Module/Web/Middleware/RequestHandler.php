@@ -15,7 +15,7 @@ use Ricotta\Container\Framework\Reference;
 
 /**
  * @internal
- * 
+ *
  * Generate a PSR 7 response by passing it through the middleware stack to the web app.
  */
 class RequestHandler implements RequestHandlerInterface
@@ -34,14 +34,14 @@ class RequestHandler implements RequestHandlerInterface
         private readonly WebApp $webApp,
         private readonly ErrorHandler $errorHandler,
         private readonly CallbackHandlerFactory $callbackHandlerFactory,
-    ) {}
+    ) {
+    }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         try {
             $response = $this->createReponse($request);
-        } catch(\Throwable $error)
-        {
+        } catch (\Throwable $error) {
             $response = $this->errorHandler->handle($error);
         }
 

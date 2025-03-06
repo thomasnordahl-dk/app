@@ -8,7 +8,7 @@ use Closure;
 
 /**
  * @internal
- * 
+ *
  * Create callback handler instances
  */
 class CallbackHandlerFactory

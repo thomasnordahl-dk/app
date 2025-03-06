@@ -22,7 +22,7 @@ readonly class FrontpageController implements Controller
     public function dispatch(): ResponseInterface
     {
         $body = $this->streamFactory->createStream($this->templateEngine->render('front-page', 'ricotta/app'));
-        
+
         return $this->responseFactory->createResponse(200)->withBody($body);
     }
 }

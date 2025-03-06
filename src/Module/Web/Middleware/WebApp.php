@@ -24,7 +24,8 @@ class WebApp
         private readonly TemplateEngine $templateEngine,
         private readonly ResponseFactoryInterface $responseFactory,
         private readonly ErrorHandler $errorHandler,
-    ) {}
+    ) {
+    }
 
     public function createResponse(ServerRequestInterface $request): ResponseInterface
     {

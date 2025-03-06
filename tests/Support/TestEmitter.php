@@ -9,7 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class TestEmitter implements EmitterInterface
 {
-    private(set) ResponseInterface $response {
+    // @codingStandardsIgnoreStart - PHPCS has trouble with the new property hooks :(
+    public private(set) ResponseInterface $response 
+    {
         get {
             if (! isset($this->response) || ! isset($this->withoutBody)) {
                 throw new \LogicException('The response has not been emitted.');
@@ -19,8 +21,9 @@ class TestEmitter implements EmitterInterface
         }
     }
 
-    private(set) bool $withoutBody;
-
+    public private(set) bool $withoutBody;
+    
+    // @codingStandardsIgnoreEnd
     public function emit(ResponseInterface $response, bool $withoutBody = false): void
     {
         $this->response = $response;

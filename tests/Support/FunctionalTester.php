@@ -29,6 +29,4 @@ use const PHP_EOL;
 class FunctionalTester extends \Codeception\Actor
 {
     use _generated\FunctionalTesterActions;
-
-
 }

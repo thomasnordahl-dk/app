@@ -8,5 +8,6 @@ class MockView
 {
     public function __construct(
         public string $message,
-    ) {}
+    ) {
+    }
 }

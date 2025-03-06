@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Ricotta\App\Module\Template\TemplateEngine;
 
 return function (TemplateEngine $engine) {

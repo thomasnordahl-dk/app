@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ricotta\App\Tests\Functional\Templates;
 
 use Error;
@@ -28,25 +30,25 @@ class TemplateEngineCest
         $I->expectThrowable(TemplateException::class, fn() => $engine->render('html-template', 'unknown/app'));
 
         ob_start();
-        
+
         $I->expectThrowable(Error::class, fn () => $engine->render('throws-from-nested', 'ricotta/app'));
-        
+
         ob_end_clean();
-        
+
         $I->assertSame(0, ob_get_level());
 
         $I->assertSame(
-            'message', 
+            'message',
             $engine->render('callback-template', 'ricotta/app', ['view' => new MockView('message')])
         );
-        
+
         $engine->addPackagePath('ricotta/app', __DIR__ . '/override-templates');
         $I->assertSame('hello override', $engine->render('html-template', 'ricotta/app'));
 
         $I->assertSame('Message: hello override', $engine->render('nested-template', 'ricotta/app'));
 
         $I->assertSame(
-            'message', 
+            'message',
             $engine->render('callback-template', 'ricotta/app', ['view' => new MockView('message')]),
             'uses a non-callback override to test availability of injections directly in template'
         );

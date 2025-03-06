@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ricotta\App\Tests\Functional\Modules;
 
 use InvalidArgumentException;
@@ -15,13 +17,13 @@ class ModuleCest
         $I->seeResponseCodeIs(200);
         $I->see('Hello, Service!');
     }
- 
+
     public function configFile(FunctionalTester $I): void
     {
         $I->getApp()->load(__DIR__ . '/Mock/config-file.php');
-     
+
         $I->expectThrowable(
-            InvalidArgumentException::class, 
+            InvalidArgumentException::class,
             fn() => $I->getApp()->load(__DIR__ . '/Mock/config-file.txt')
         );
 
