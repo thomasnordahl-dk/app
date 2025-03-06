@@ -24,16 +24,18 @@ Roadmap
 0.3.0
 -----
 
-- [ ] Input parsing
+- [ ] Fix up
+  - [ ] Routing multiple methods to same pattern
+  - [ ] Namespacing in tests
 - [ ] Debug error handler
 - [ ] Configuration
 
-0.4.0
+0.5.0
 -----
-
+- [ ] Input parsing (?)
 - [ ] CLI commands
 
-0.5.0
+0.6.0
 -----
 
 - [ ] Skeleton project?
