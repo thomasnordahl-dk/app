@@ -49,8 +49,8 @@
     "scripts": {
         "test": "codecept run",
         "phpstan": "phpstan analyse --level=9 src demo",
-        "phpcs": "phpcs -s --tab-width=4 --standard=phpcs.xml demo src templates tests",
-        "fix": "phpcbf --tab-width=4 --standard=phpcs.xml demo src tests templates",
+        "phpcs": "phpcs -s --tab-width=4 demo src templates tests",
+        "fix": "phpcbf --tab-width=4 demo src tests templates",
         "all": [
             "@test",
             "@phpstan",
