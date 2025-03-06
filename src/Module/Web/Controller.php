@@ -8,5 +8,5 @@ use Psr\Http\Message\ResponseInterface;
 
 interface Controller
 {
-    public function dispatch(): ResponseInterface;
+    public function dispatch(): Result|ResponseInterface;
 }

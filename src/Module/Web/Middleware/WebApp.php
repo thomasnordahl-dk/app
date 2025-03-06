@@ -11,6 +11,7 @@ use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Web\Error\ErrorHandler;
 use Ricotta\App\Module\Web\Routing\RouteResult;
 use Ricotta\App\Module\Web\Controller;
+use Ricotta\App\Module\Web\Result;
 use Ricotta\Container\Container;
 
 /**
@@ -40,6 +41,8 @@ class WebApp
                 $response = $this->container
                     ->create($controller, [ServerRequestInterface::class => $request])
                     ->dispatch();
+
+                $response = $response instanceof Result ? $response->createResponse($this->container) : $response;
             } catch (\Throwable $error) {
                 return $this->errorHandler->handle($error);
             }
