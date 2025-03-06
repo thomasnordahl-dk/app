@@ -7,7 +7,7 @@ namespace Ricotta\App\Tests\Functional\Result;
 use Ricotta\App\Tests\Functional\Result\Mock\MockController;
 use Ricotta\App\Tests\Support\FunctionalTester;
 
-class ResultModelCest 
+class ResultModelCest
 {
     public function controllersCanReturnResult(FunctionalTester $I): void
     {
