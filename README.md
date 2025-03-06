@@ -20,25 +20,21 @@ This is the main application for Ricotta. Use this to create a new Ricotta proje
 - [x] Templating and view models
 - [x] 404 and 500 pages
 - [x] Error handling
-
-### 0.3.0
-
 - [ ] CodeSniffer
 - [ ] CodeBeautifier
 - [ ] Contributing guidelines
     - [ ] Code coverage - _"While the quality of a test can not be asserted by coverage, the presence of tests certainly can. So we require 100% coverage. Pull/Merge Requests that do not have 100% test coverage will not be accepted."_
     - [ ] strict types
-- [ ] Coverage Report ?
 
-### 0.4.0
+### 0.3.0
 - [ ] Input parsing
 - [ ] Debug error handler
 - [ ] Configuration
 
-### 0.5.0
+### 0.4.0
 - [ ] CLI commands
 
-### 0.6.0
+### 0.5.0
 - [ ] Skeleton project?
 - [ ] Configuration Seeding
 
