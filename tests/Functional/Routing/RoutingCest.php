@@ -103,4 +103,32 @@ class RoutingCest
             fn() => $app->routes['invalid\url@pattern']->get(GetController::class)
         );
     }
+
+    public function canHaveMultipleMethodsDefined(FunctionalTester $I): void
+    {
+        $I->getApp()->routes['/route']
+            ->get(GetController::class)
+            ->post(PostController::class)
+            ->put(PutController::class)
+            ->patch(PatchController::class)
+            ->delete(DeleteController::class)
+            ->head(HeadController::class)
+            ->options(OptionsController::class);
+        ;
+
+        $I->sendAjaxRequest('Get', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Post', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Put', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Patch', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Delete', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Head', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Options', '/route');
+        $I->seeResponseCodeIs(200);
+    }
 }
