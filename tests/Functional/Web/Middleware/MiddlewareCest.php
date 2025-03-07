@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Middleware;
+namespace Ricotta\App\Tests\Functional\Web\Middleware;
 
 use Ricotta\App\App;
 use Ricotta\App\Tests\Support\FunctionalTester;

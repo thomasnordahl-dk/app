@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Modules;
+namespace Ricotta\App\Tests\Functional\Web\Modules;
 
 use InvalidArgumentException;
-use Ricotta\App\Tests\Functional\Modules\Mock\MockModule;
+use Ricotta\App\Tests\Functional\Web\Modules\Mock\MockModule;
 use Ricotta\App\Tests\Support\FunctionalTester;
 
 class ModuleCest

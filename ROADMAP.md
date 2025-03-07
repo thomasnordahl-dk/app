@@ -26,7 +26,7 @@ Roadmap
 
 - [ ] Fix up
   - [x] Routing multiple methods to same pattern
-  - [ ] Namespacing in tests
+  - [X] Namespacing in tests
 - [ ] Debug error handler
 - [ ] Configuration
 

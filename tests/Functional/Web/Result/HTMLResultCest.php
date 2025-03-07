@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Result;
+namespace Ricotta\App\Tests\Functional\Web\Result;
 
 use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Web\Result\HTMLResult;

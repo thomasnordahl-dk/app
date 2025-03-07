@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Routing;
+namespace Ricotta\App\Tests\Functional\Web\Routing;
 
 use Ricotta\App\Module\Web\Routing\RouterException;
-use Ricotta\App\Tests\Functional\Routing\Mock\DeleteController;
-use Ricotta\App\Tests\Functional\Routing\Mock\GetController;
-use Ricotta\App\Tests\Functional\Routing\Mock\HeadController;
-use Ricotta\App\Tests\Functional\Routing\Mock\OptionsController;
-use Ricotta\App\Tests\Functional\Routing\Mock\PatchController;
-use Ricotta\App\Tests\Functional\Routing\Mock\PostController;
-use Ricotta\App\Tests\Functional\Routing\Mock\PutController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\DeleteController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\GetController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\HeadController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\OptionsController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\PatchController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\PostController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\PutController;
 use Ricotta\App\Tests\Support\FunctionalTester;
 
 class RoutingCest
