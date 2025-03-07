@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Routing\Mock;
+namespace Ricotta\App\Tests\Functional\Web\Routing\Mock;
 
 class HeadController extends GetController
 {

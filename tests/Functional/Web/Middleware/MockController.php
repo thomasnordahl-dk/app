@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Middleware;
+namespace Ricotta\App\Tests\Functional\Web\Middleware;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

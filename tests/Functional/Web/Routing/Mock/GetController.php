@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Routing\Mock;
+namespace Ricotta\App\Tests\Functional\Web\Routing\Mock;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

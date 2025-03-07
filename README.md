@@ -47,6 +47,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 $app = new Ricotta\App();
 
 $app->routes['/']->get(MyModule\GetFrontPage::class);
+$app->routes['/post-comment']->post(MyModule\PostComment::class);
 
 $app->run();
 ```

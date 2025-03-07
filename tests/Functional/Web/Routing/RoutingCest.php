@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Functional\Routing;
+namespace Ricotta\App\Tests\Functional\Web\Routing;
 
 use Ricotta\App\Module\Web\Routing\RouterException;
-use Ricotta\App\Tests\Functional\Routing\Mock\DeleteController;
-use Ricotta\App\Tests\Functional\Routing\Mock\GetController;
-use Ricotta\App\Tests\Functional\Routing\Mock\HeadController;
-use Ricotta\App\Tests\Functional\Routing\Mock\OptionsController;
-use Ricotta\App\Tests\Functional\Routing\Mock\PatchController;
-use Ricotta\App\Tests\Functional\Routing\Mock\PostController;
-use Ricotta\App\Tests\Functional\Routing\Mock\PutController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\DeleteController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\GetController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\HeadController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\OptionsController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\PatchController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\PostController;
+use Ricotta\App\Tests\Functional\Web\Routing\Mock\PutController;
 use Ricotta\App\Tests\Support\FunctionalTester;
 
 class RoutingCest
@@ -102,5 +102,33 @@ class RoutingCest
             RouterException::class,
             fn() => $app->routes['invalid\url@pattern']->get(GetController::class)
         );
+    }
+
+    public function canHaveMultipleMethodsDefined(FunctionalTester $I): void
+    {
+        $I->getApp()->routes['/route']
+            ->get(GetController::class)
+            ->post(PostController::class)
+            ->put(PutController::class)
+            ->patch(PatchController::class)
+            ->delete(DeleteController::class)
+            ->head(HeadController::class)
+            ->options(OptionsController::class);
+        ;
+
+        $I->sendAjaxRequest('Get', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Post', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Put', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Patch', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Delete', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Head', '/route');
+        $I->seeResponseCodeIs(200);
+        $I->sendAjaxRequest('Options', '/route');
+        $I->seeResponseCodeIs(200);
     }
 }
