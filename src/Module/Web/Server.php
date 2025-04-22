@@ -27,7 +27,7 @@ readonly class Server
         } catch (Throwable $error) {
             $response = $this->errorHandler->handle($error);
         }
-        
+
         $this->emitter->emit($response);
     }
 }

@@ -17,6 +17,7 @@ class TestState
     public function resetApp(): void
     {
         $this->internalApp = null;
+        $this->internalEmitter = null;
     }
 
     public function getApp(): App

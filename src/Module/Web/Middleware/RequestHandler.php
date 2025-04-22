@@ -12,6 +12,7 @@ use Ricotta\App\Module\Web\Error\ErrorHandler;
 use Ricotta\App\Module\Web\Middleware\WebApp;
 use Ricotta\Container\Container;
 use Ricotta\Container\Framework\Reference;
+use Throwable;
 
 /**
  * @internal
@@ -32,7 +33,6 @@ class RequestHandler implements RequestHandlerInterface
         private readonly array $middlewares,
         private readonly Container $container,
         private readonly WebApp $webApp,
-        private readonly ErrorHandler $errorHandler,
         private readonly CallbackHandlerFactory $callbackHandlerFactory,
     ) {
     }
@@ -41,8 +41,10 @@ class RequestHandler implements RequestHandlerInterface
     {
         try {
             $response = $this->createReponse($request);
-        } catch (\Throwable $error) {
-            $response = $this->errorHandler->handle($error);
+        } catch (Throwable $error) {
+            $this->counter = 0;
+
+            throw $error;
         }
 
         $this->counter = 0;

@@ -12,11 +12,13 @@ use Ricotta\App\App;
 
 class Functional extends Framework //implements MultiSession
 {
+    private ?TestState $state = null;
+
     public function _before(TestInterface $test): void
     {
         parent::_before($test);
 
-        $this->getSupport()->resetApp();
+        $this->resetApp();
         $this->client = new TestClient($this->getSupport());
     }
 
@@ -32,15 +34,13 @@ class Functional extends Framework //implements MultiSession
 
     public function resetApp(): void
     {
-        $this->getSupport()->resetApp();
+        $this->state = new TestState();
     }
 
     public function getSupport(): TestState
     {
-        static $support;
+        $this->state ??= new TestState();
 
-        $support ??= new TestState();
-
-        return $support;
+        return $this->state;
     }
 }

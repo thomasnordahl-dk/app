@@ -55,7 +55,7 @@ class TemplateEngine
             while (ob_get_level() > $startLevel) {
                 ob_end_clean();
             }
-            
+
             throw $error;
         }
     }

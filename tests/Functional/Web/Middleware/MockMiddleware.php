@@ -20,7 +20,6 @@ class MockMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-
         $request = $request->withAttribute($this->prefix . self::KEY, $this->prefix . self::VALUE);
 
         $handler->handle($request);

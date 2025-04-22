@@ -4,13 +4,6 @@ declare(strict_types=1);
 
 namespace Ricotta\App\Tests\Support;
 
-use Psr\Http\Message\ResponseInterface;
-use Ricotta\App\App;
-
-use function set_error_handler;
-
-use const PHP_EOL;
-
 /**
  * Inherited Methods
  * @method void wantTo($text)

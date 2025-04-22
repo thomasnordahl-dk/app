@@ -29,7 +29,7 @@ class TemplateEngineCest
 
         $I->expectThrowable(TemplateException::class, fn() => $engine->render('does-not-exist', 'ricotta/app'));
         $I->expectThrowable(TemplateException::class, fn() => $engine->render('html-template', 'unknown/app'));
-        
+
         $I->expectThrowable(RuntimeException::class, fn () => $engine->render('throws', 'ricotta/app'));
         $I->expectThrowable(RuntimeException::class, fn () => $engine->render('throws-from-nested', 'ricotta/app'));
 

@@ -20,6 +20,7 @@ class MiddlewareCest
                     $I->getApp()->bootstrap[MockMiddleware::class]->reference(), // container reference
                     new MockMiddleware('custom-') // instance
                 ]);
+
         $I->getApp()->routes['/']->get(MockController::class);
 
         $I->amOnPage('/');
