@@ -476,3 +476,19 @@ $app->bootstrap[ErrorHandler::class]
     ->register()
     ->type(LogErrorHandler::class);
 ``` 
+
+#### Debug Error Handler
+
+Register the `Ricotta\App\Web\Error\DebugErrorHandler` class as the error handler to render errors on error pages in development environments.
+
+
+```php
+<?php
+use Ricotta\App\App;
+use Ricotta\App\Web\Error\ErrorHandler;
+use Ricotta\App\Web\Error\DebugErrorHandler;
+
+$app->bootstrap[ErrorHandler::class]
+    ->register()
+    ->type(DebugErrorHandler::class);
+``` 

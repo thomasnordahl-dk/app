@@ -24,10 +24,10 @@ Roadmap
 0.3.0
 -----
 
-- [ ] Fix up
+- [x] Fix up
   - [x] Routing multiple methods to same pattern
   - [X] Namespacing in tests
-- [ ] Debug error handler
+- [x] Debug error handler
 - [ ] Configuration
 
 0.5.0
