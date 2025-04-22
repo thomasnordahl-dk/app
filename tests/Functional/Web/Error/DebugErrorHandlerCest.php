@@ -24,6 +24,6 @@ class DebugErrorHandlerCest
         $I->see("Type: RuntimeException");
         $I->see("Message: Test error");
         $I->see(__FILE__);
-        $I->see("Line: 18");
+        $I->see("Line: 17");
     }
 }
