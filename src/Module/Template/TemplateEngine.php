@@ -10,13 +10,14 @@ use Throwable;
 
 class TemplateEngine
 {
-    public function __construct(private readonly Container $container)
-    {
-    }
     /**
      * @var array<string, list<string>> $packagePaths
      */
     private array $packagePaths = [];
+
+    public function __construct(private readonly Container $container)
+    {
+    }
 
     public function addPackagePath(string $packageName, string $rootPath): void
     {
