@@ -10,6 +10,7 @@ use Ricotta\App\Module\Template\TemplateException;
 use Ricotta\App\Tests\Functional\Templates\Mock\MockView;
 use Ricotta\App\Tests\Support\FunctionalTester;
 use Ricotta\Container\Container;
+use RuntimeException;
 use stdClass;
 
 class TemplateEngineCest
@@ -29,11 +30,8 @@ class TemplateEngineCest
         $I->expectThrowable(TemplateException::class, fn() => $engine->render('does-not-exist', 'ricotta/app'));
         $I->expectThrowable(TemplateException::class, fn() => $engine->render('html-template', 'unknown/app'));
 
-        ob_start();
-
-        $I->expectThrowable(Error::class, fn () => $engine->render('throws-from-nested', 'ricotta/app'));
-
-        ob_end_clean();
+        $I->expectThrowable(RuntimeException::class, fn () => $engine->render('throws', 'ricotta/app'));
+        $I->expectThrowable(RuntimeException::class, fn () => $engine->render('throws-from-nested', 'ricotta/app'));
 
         $I->assertSame(0, ob_get_level());
 

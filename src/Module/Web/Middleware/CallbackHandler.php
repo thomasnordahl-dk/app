@@ -15,18 +15,19 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Resolves the next response via a provided callback and caches it to ensure the next response is
  * only fetched once.
  */
-readonly class CallbackHandler implements RequestHandlerInterface
+class CallbackHandler implements RequestHandlerInterface
 {
-    public function __construct(private Closure $callback)
+    private ?ResponseInterface $response = null;
+
+    public function __construct(private readonly Closure $callback)
     {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        static $response;
+        $this->response ??= ($this->callback)($request);
 
-        $response ??= ($this->callback)($request);
-
-        return $response;
+        /** @var ResponseInterface */
+        return $this->response;
     }
 }
