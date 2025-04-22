@@ -8,7 +8,6 @@ use Ricotta\App\App;
 use Ricotta\App\Module\Web\Error\DebugErrorHandler;
 use Ricotta\App\Module\Web\Error\ErrorHandler;
 use Ricotta\App\Tests\Functional\Web\Middleware\BrokenMiddleware;
-use Ricotta\App\Tests\Functional\Web\Middleware\MockController;
 use Ricotta\App\Tests\Support\FunctionalTester;
 
 class DebugErrorHandlerCest
