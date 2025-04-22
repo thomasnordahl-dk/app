@@ -35,25 +35,27 @@ class TemplateEngine
      */
     public function render(string $fileName, string $packageName, array $injections = []): string
     {
-        $filePath = $this->getFilePath($fileName, $packageName);
-        extract($injections);
-
+        $startLevel = ob_get_level();
         ob_start();
+
         try {
+            $filePath = $this->getFilePath($fileName, $packageName);
+            extract($injections);
+
             $value = include $filePath;
 
             if (is_callable($value)) {
                 $this->container->call(Closure::fromCallable($value), $injections);
             }
 
-            $contents = ob_get_contents() ?: '';
-
-            ob_end_clean();
+            $contents = ob_get_clean() ?: '';
 
             return $contents;
         } catch (Throwable $error) {
-            ob_end_clean();
-
+            while (ob_get_level() > $startLevel) {
+                ob_end_clean();
+            }
+            
             throw $error;
         }
     }
