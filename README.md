@@ -555,3 +555,5 @@ $app->bootstrap[ErrorHandler::class]
     ->register()
     ->type(DebugErrorHandler::class);
 ``` 
+
+![Debug error page example](docs/img/error-page.png)
