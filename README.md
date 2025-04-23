@@ -19,6 +19,7 @@
   - [Dependency Injection](#dependency-injection)
   - [Modules](#modules)
   - [Configuration Files](#configuration-files)
+  - [Configuration Interface](#configuration-interface)
   - [Advanced Routing](#advanced-routing)
   - [Middleware](#middleware)
   - [Templates](#templates)
@@ -157,7 +158,7 @@ $app->load(dirname(__DIR__) . '/bootstrap.php');
 $app->run();
 ``` 
 
-### Configuration
+### Configuration Interface
 
 The application uses a configuration system based on the `Ricotta\App\Module\Configuration\Configuration` interface, which provides typed access to configuration values loaded at runtime.
 
