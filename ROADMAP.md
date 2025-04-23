@@ -30,12 +30,12 @@ Roadmap
 - [x] Debug error handler
 - [x] Configuration
 
-0.5.0
+0.4.0
 -----
 - [ ] Input parsing (?)
 - [ ] CLI commands
 
-0.6.0
+0.5.0
 -----
 
 - [ ] Skeleton project?
