@@ -6,7 +6,9 @@ namespace Ricotta\App\Module\Web;
 
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Ricotta\App\Module\Web\Error\ErrorHandler;
 use Ricotta\App\Module\Web\Middleware\RequestHandler;
+use Throwable;
 
 readonly class Server
 {
@@ -14,12 +16,17 @@ readonly class Server
         private EmitterInterface $emitter,
         private RequestHandler $requestHandler,
         private ServerRequestInterface $request,
+        private ErrorHandler $errorHandler,
     ) {
     }
 
     public function dispatch(): void
     {
-        $response = $this->requestHandler->handle($this->request);
+        try {
+            $response = $this->requestHandler->handle($this->request);
+        } catch (Throwable $error) {
+            $response = $this->errorHandler->handle($error);
+        }
 
         $this->emitter->emit($response);
     }

@@ -19,12 +19,10 @@ class Definition
 {
     private const string VALID_PATTERN_REGEX = '#^(/(?:[A-Za-z0-9\-._~!$&\'()*+,;=:@%]+|\{[A-Za-z0-9_]+\}))*/*\*?$#';
 
-    private Method $method;
-
     /**
-     * @var class-string<Controller>
+     * @var array<Method, class-string<Controller>> $controllers
      */
-    private string $controller;
+    private array $controllers = [];
 
     /**
      * @throws RouterException
@@ -39,72 +37,86 @@ class Definition
     /**
      * @param class-string<Controller> $controller
      *
-     * @return void
+     * @return self
      */
-    public function get(string $controller): void
+    public function get(string $controller): self
     {
         $this->set(Method::GET, $controller);
+
+        return $this;
     }
 
     /**
      * @param class-string<Controller> $controller
      *
-     * @return void
+     * @return self
      */
-    public function post(string $controller): void
+    public function post(string $controller): self
     {
         $this->set(Method::POST, $controller);
+
+        return $this;
     }
 
     /**
      * @param class-string<Controller> $controller
      *
-     * @return void
+     * @return self
      */
-    public function put(string $controller): void
+    public function put(string $controller): self
     {
         $this->set(Method::PUT, $controller);
+
+        return $this;
     }
 
     /**
      * @param class-string<Controller> $controller
      *
-     * @return void
+     * @return self
      */
-    public function patch(string $controller): void
+    public function patch(string $controller): self
     {
         $this->set(Method::PATCH, $controller);
+
+        return $this;
     }
 
     /**
      * @param class-string<Controller> $controller
      *
-     * @return void
+     * @return self
      */
-    public function delete(string $controller): void
+    public function delete(string $controller): self
     {
         $this->set(Method::DELETE, $controller);
+
+        return $this;
     }
 
     /**
      * @param class-string<Controller> $controller
      *
-     * @return void
+     * @return self
      */
-    public function options(string $controller): void
+    public function options(string $controller): self
     {
         $this->set(Method::OPTIONS, $controller);
+
+        return $this;
     }
 
     /**
      * @param class-string<Controller> $controller
      *
-     * @return void
+     * @return self
      */
 
-    public function head(string $controller): void
+    public function head(string $controller): self
     {
         $this->set(Method::HEAD, $controller);
+
+        return $this;
     }
 
     /**
@@ -115,8 +127,7 @@ class Definition
      */
     private function set(Method $method, string $controller): void
     {
-        $this->method = $method;
-        $this->controller = $controller;
+        $this->controllers[$method->value] = $controller;
     }
 
     /**
@@ -124,7 +135,9 @@ class Definition
      */
     public function detectRoute(ServerRequestInterface $request): ?Route
     {
-        if (strtoupper($request->getMethod()) !== $this->method->value) {
+        $method = Method::fromString($request->getMethod());
+
+        if (! isset($this->controllers[$method->value])) {
             return null;
         }
 
@@ -161,8 +174,8 @@ class Definition
         return new Route(
             $this->pattern,
             $path,
-            $this->controller,
-            $this->method,
+            $this->controllers[$method->value],
+            $method,
             $parameters,
             $wildcard
         );

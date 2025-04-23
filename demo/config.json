@@ -1,0 +1,11 @@
+{
+    "ricotta": {
+        "demo": {
+            "frontpage":
+                {
+                    "title": "Welcome to Ricotta",
+                    "message": "A light-weight framework for building web projects."
+                }
+        }
+    }
+}
