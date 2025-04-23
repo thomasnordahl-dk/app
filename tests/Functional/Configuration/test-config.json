@@ -1,0 +1,19 @@
+{
+    "ricotta": {
+        "test": {
+            "string": "hello",
+            "int": 2,
+            "float": 2.2,
+            "bool1": false,
+            "bool2": true,
+            "array": [
+                "test",
+                3,
+                3.3,
+                {
+                    "indexed": "value"
+                }
+            ]
+        }
+    }
+}

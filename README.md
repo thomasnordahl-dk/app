@@ -19,6 +19,7 @@
   - [Dependency Injection](#dependency-injection)
   - [Modules](#modules)
   - [Configuration Files](#configuration-files)
+  - [Configuration Interface](#configuration-interface)
   - [Advanced Routing](#advanced-routing)
   - [Middleware](#middleware)
   - [Templates](#templates)
@@ -156,6 +157,68 @@ $app = new App();
 $app->load(dirname(__DIR__) . '/bootstrap.php');
 $app->run();
 ``` 
+
+### Configuration Interface
+
+The application uses a configuration system based on the `Ricotta\App\Module\Configuration\Configuration` interface, which provides typed access to configuration values loaded at runtime.
+
+In the default setup, configuration is loaded from a JSON file using the `JSONConfiguration` class. The configuration service is registered in the bootstrap process like this:
+
+```php
+use Ricotta\App\Module\Configuration\Configuration;
+use Ricotta\App\Module\Configuration\JSONConfiguration;
+
+/**
+ * @var \Ricotta\App\App $app
+ */
+$app->bootstrap[Configuration::class]
+    ->register()
+    ->callback(fn () => new JSONConfiguration(__DIR__ . '/config.json'));
+```
+
+Once registered, the `Configuration` service can be injected wherever needed. Values are accessed using dot-separated paths to navigate nested structures. For example, given the following `config.json`:
+
+```json
+{
+    "ricotta": {
+        "test": {
+            "string": "hello",
+            "int": 2,
+            "float": 2.2,
+            "bool1": false,
+            "bool2": true,
+            "array": [
+                "test",
+                3,
+                3.3,
+                {
+                    "indexed": "value"
+                }
+            ]
+        }
+    }
+}
+```
+
+You can retrieve values like this:
+
+```php
+$configuration = $container->get(Configuration::class);
+
+echo $configuration->string('ricotta.test.string'); // "hello"
+echo $configuration->int('ricotta.test.int');       // 2
+echo $configuration->float('ricotta.test.float');   // 2.2
+echo $configuration->bool('ricotta.test.bool2');    // true
+
+print_r($configuration->array('ricotta.test.array'));
+```
+
+If a value is missing, or the type does not match the expected type, a `ConfigurationException` will be thrown.  
+The configuration file is loaded lazily — it is read and parsed only when a value is first accessed.
+
+---
+
+Would you also want a quick extra snippet showing how you'd use it inside a controller, just to make it even closer to your FrontpageController example? 🚀
 
 ### Advanced Routing
 
