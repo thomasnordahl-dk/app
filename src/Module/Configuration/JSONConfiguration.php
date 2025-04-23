@@ -78,10 +78,14 @@ class JSONConfiguration implements Configuration
 
             $content = file_get_contents($this->filePath) ?: '{}';
 
+            if (! json_validate($content)) {
+                throw new ConfigurationException("Invalid JSON in file {$this->filePath}");
+            }
+
             $values = json_decode($content, true);
 
             if (! is_array($values)) {
-                throw new ConfigurationException("Invalid JSON in file {$this->filePath}");
+                throw new ConfigurationException("Invalid configuration in file {$this->filePath}");
             }
 
             $this->values = $values;
