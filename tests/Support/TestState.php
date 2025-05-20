@@ -24,7 +24,7 @@ class TestState
     {
         if ($this->internalApp === null) {
             $this->internalEmitter = new TestEmitter();
-            $this->internalApp = new App();
+            $this->internalApp = new App(new TestEnvironment(false));
             // Register the TestEmitter instance as the EmitterInterface implementation.
             $this->internalApp->bootstrap[EmitterInterface::class]
                 ->register()

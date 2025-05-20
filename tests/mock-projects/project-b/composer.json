@@ -1,0 +1,12 @@
+{
+    "name": "mock/project-b",
+    "type": "ricotta",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mock\\ProjectB\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
