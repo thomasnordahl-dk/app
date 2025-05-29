@@ -7,6 +7,7 @@ namespace Ricotta\App\Tests\Functional\Console;
 use Mock\ProjectA\MockService;
 use Psy\Shell;
 use Ricotta\App\Module\Console\Console;
+use Ricotta\App\Module\Console\ConsoleModule;
 use Ricotta\App\Tests\Support\FunctionalTester;
 use Ricotta\Container\Container;
 use RuntimeException;
@@ -37,6 +38,7 @@ class ConsoleCest
 
     public function registerWrongType(FunctionalTester $I): void
     {
+        $I->getApp()->add(new ConsoleModule());
         $I->getApp()
             ->bootstrap[Console::class]
             ->configure(fn (Console $console) => $console->register(MockService::class));

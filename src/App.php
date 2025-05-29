@@ -6,9 +6,6 @@ namespace Ricotta\App;
 
 use Composer\InstalledVersions;
 use InvalidArgumentException;
-use Psr\Container\ContainerInterface;
-use Ricotta\App\Module\Console\ClimateFactory;
-use Ricotta\App\Module\Console\Console;
 use Ricotta\App\Module\Web\WebModule;
 use Ricotta\App\Module\Web\Routes;
 use Ricotta\App\Module\Web\Routing\Router;
@@ -33,13 +30,6 @@ class App
         $this->routes = $router;
 
         $this->bootstrap = new Bootstrapping();
-
-        //TODO split up bootstrapping
-        $this->bootstrap[ClimateFactory::class]->register();
-        $this->bootstrap[Console::class]->register()
-            ->callback(function (ContainerInterface $container, ClimateFactory $factory) {
-                return new Console($factory, fn ($class) => $container->get($class));
-            });
 
         $this->add(new WebModule($router));
         $this->add(new TemplateModule());

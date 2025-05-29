@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use Ricotta\App\App;
 use Ricotta\App\Module\Console\Console;
+use Ricotta\App\Module\Console\ConsoleModule;
 use Ricotta\Container\Container;
 
 $previousFolder = __DIR__;
@@ -24,6 +25,7 @@ while ($folder !== $previousFolder) {
 
 $app = new App();
 $app->loadModules();
+$app->add(new ConsoleModule());
 
 $container = new Container($app->bootstrap);
 
