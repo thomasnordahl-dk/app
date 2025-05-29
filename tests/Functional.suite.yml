@@ -4,6 +4,7 @@ modules:
   # enable helpers as array
   enabled:
     - Asserts
-    - Ricotta\App\Tests\Support\Functional
+    - Cli
+    - Ricotta\CodeceptionModule\Functional
     - REST:
-        depends: Ricotta\App\Tests\Support\Functional
+        depends: Ricotta\CodeceptionModule\Functional

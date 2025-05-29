@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Ricotta\App\App;
+use Ricotta\App\Module\Console\Console;
+use Ricotta\Container\Container;
+
+$previousFolder = __DIR__;
+$folder = dirname(__DIR__);
+
+while ($folder !== $previousFolder) {
+    $fileName = $folder . DIRECTORY_SEPARATOR . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
+    if (file_exists($fileName)) {
+        require_once $fileName;
+        
+        break;
+    }
+
+    $previousFolder = $folder;
+    $folder = dirname($folder);
+}
+
+$app = new App();
+$app->loadModules();
+
+$container = new Container($app->bootstrap);
+
+try {
+    $container->call(fn (Console $console) => $console->run());
+} catch (Throwable $error) {
+    echo $error->getMessage();
+    exit(1);
+}
+
+exit(0);

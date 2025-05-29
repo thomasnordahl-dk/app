@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Support;
+namespace Ricotta\CodeceptionModule;
 
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseInterface;

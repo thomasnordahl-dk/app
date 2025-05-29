@@ -30,15 +30,16 @@ Roadmap
 - [x] Debug error handler
 - [x] Configuration
 
-0.4.0
------
-- [ ] Input parsing (?)
-- [ ] CLI commands
-
 0.5.0
 -----
+- [x] CLI commands
 
-- [ ] Skeleton project?
+Next
+-----
+
+- [ ] Clean up messy test support classes
+- [ ] Input parsing
+- [ ] Demo project in a separate repository?
 - [ ] Configuration Seeding
 
 1.0.0
