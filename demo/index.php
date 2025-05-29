@@ -8,6 +8,8 @@ use Ricotta\App\App;
 
 $app = new App();
 
+$app->loadModules();
+
 $app->load(__DIR__ . DIRECTORY_SEPARATOR . "web.php");
 
 $app->run();

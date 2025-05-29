@@ -44,7 +44,6 @@
         "psr/http-factory": "^1.1",
         "nyholm/psr7-server": "^1.1",
         "httpsoft/http-emitter": "^1.1",
-        "codeception/module-rest": "^3.4",
         "psr/http-server-middleware": "^1.0",
         "composer-runtime-api": "^2",
         "league/climate": "^3.10"
@@ -53,10 +52,12 @@
         "phpstan/phpstan": "^2.1",
         "codeception/codeception": "^5.2",
         "codeception/module-asserts": "^3.0",
+        "codeception/module-rest": "^3.4",
         "codeception/lib-innerbrowser": "^4.0",
         "squizlabs/php_codesniffer": "^3.11",
         "mock/project-a": "*",
-        "mock/project-b": "*"
+        "mock/project-b": "*",
+        "codeception/module-cli": "^2.0" 
     },
     "bin": [
         "bin/command"

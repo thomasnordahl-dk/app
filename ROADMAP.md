@@ -30,14 +30,14 @@ Roadmap
 - [x] Debug error handler
 - [x] Configuration
 
-0.4.0
------
-- [ ] Input parsing (?)
-- [ ] CLI commands
-
 0.5.0
 -----
+- [x] CLI commands
 
+Next
+-----
+
+- [ ] Input parsing
 - [ ] Skeleton project?
 - [ ] Configuration Seeding
 
