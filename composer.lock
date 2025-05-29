@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52f3569670e77614e30f33f7e3d4162c",
+    "content-hash": "88ef3bbcffa803aaec0dc3e21a35a247",
     "packages": [
         {
             "name": "httpsoft/http-emitter",
@@ -2616,6 +2616,47 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "ricotta/codeception-module",
+            "version": "0.4.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "codeception-module",
+                "reference": "39ec24aaaeba8e817efbd74b42cb42120c506b2e"
+            },
+            "require": {
+                "codeception/codeception": "^5.2",
+                "codeception/lib-innerbrowser": "^4.0",
+                "codeception/module-asserts": "^3.0",
+                "codeception/module-rest": "^3.4",
+                "php": ">=8.4",
+                "ricotta/app": "^0.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ricotta\\CodeceptionModule\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Ricotta\\App\\": "../src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Nordahl Pedersen",
+                    "email": "thno@fynskemedier.dk"
+                }
+            ],
+            "description": "Ricotta app codeception test support module",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "sebastian/cli-parser",

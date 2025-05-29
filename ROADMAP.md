@@ -37,8 +37,9 @@ Roadmap
 Next
 -----
 
+- [ ] Clean up messy test support classes
 - [ ] Input parsing
-- [ ] Skeleton project?
+- [ ] Demo project in a separate repository?
 - [ ] Configuration Seeding
 
 1.0.0

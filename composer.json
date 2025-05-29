@@ -10,6 +10,10 @@
         },
         {
             "type": "path",
+            "url": "codeception-module"
+        },
+        {
+            "type": "path",
             "url": "tests/mock-projects/project-a"
         },
         {
@@ -49,6 +53,7 @@
         "league/climate": "^3.10"
     },
     "require-dev": {
+        "ricotta/codeception-module": "*",
         "phpstan/phpstan": "^2.1",
         "codeception/codeception": "^5.2",
         "codeception/module-asserts": "^3.0",
