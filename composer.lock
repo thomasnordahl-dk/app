@@ -2623,7 +2623,7 @@
             "dist": {
                 "type": "path",
                 "url": "codeception-module",
-                "reference": "39ec24aaaeba8e817efbd74b42cb42120c506b2e"
+                "reference": "891e7a2d189a73430d37d32c1ca8f2cf6274f3c1"
             },
             "require": {
                 "codeception/codeception": "^5.2",
@@ -2631,7 +2631,7 @@
                 "codeception/module-asserts": "^3.0",
                 "codeception/module-rest": "^3.4",
                 "php": ">=8.4",
-                "ricotta/app": "^0.4.0"
+                "ricotta/app": "*"
             },
             "type": "library",
             "autoload": {

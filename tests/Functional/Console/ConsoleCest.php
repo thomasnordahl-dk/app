@@ -15,13 +15,13 @@ class ConsoleCest
 {
     public function outputHelpScreen(FunctionalTester $I): void
     {
-        $I->runShellCommand('bin/command');
+        $I->runShellCommand('bin/ricotta');
 
         $I->seeResultCodeIs(0);
 
         $expected = <<<SHELL
         The following arguments are required: [-c command name].
-        Usage: bin/command [-c command name]
+        Usage: bin/ricotta [-c command name]
 
         Required Arguments:
         \t-c command name
@@ -48,12 +48,12 @@ class ConsoleCest
 
     public function callTestCommand(FunctionalTester $I): void
     {
-        $I->runShellCommand("bin/command -c a:test-command");
+        $I->runShellCommand("bin/ricotta -c a:test-command");
 
         $I->seeResultCodeIs(0);
         $I->seeInShellOutput("Output from test command from mock/project-a");
 
-        $I->runShellCommand("bin/command -c a:test-command -o=\"optional value\"");
+        $I->runShellCommand("bin/ricotta -c a:test-command -o=\"optional value\"");
 
         $I->seeResultCodeIs(0);
         $I->seeInShellOutput("Output from test command from mock/project-a");

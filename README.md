@@ -620,10 +620,10 @@ $app->bootstrap[ErrorHandler::class]
 
 The Ricotta framework comes with a simple CLI command runner. It is distributed as a binary file:
 
-    ~ vendor/bin/command
+    ~ vendor/bin/ricotta
 
     The following arguments are required: [-c command name].
-    Usage: bin/command [-c command name]
+    Usage: bin/ricotta [-c command name]
 
     Required Arguments:
             -c command name
@@ -635,7 +635,7 @@ The Ricotta framework comes with a simple CLI command runner. It is distributed 
 
 Commands are invoked with `-c` argument
 
-    ~ vendor/bin/command -c my-module:my-command
+    ~ vendor/bin/ricotta -c my-module:my-command
 
 #### Custom commands
 
@@ -713,7 +713,6 @@ class MyCommand implements Command
 }
 ```
 
-
-    ~ vendor/bin/command -c my-module:my-command
+    ~ vendor/bin/ricotta -c my-module:my-command
     ~ What is your name?
     ~ Hello John

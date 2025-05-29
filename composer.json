@@ -65,7 +65,7 @@
         "codeception/module-cli": "^2.0" 
     },
     "bin": [
-        "bin/command"
+        "bin/ricotta"
     ],
     "scripts": {
         "test": "codecept run",

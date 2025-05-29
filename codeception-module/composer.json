@@ -23,7 +23,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=8.4",
-        "ricotta/app": "^0.4.0",
+        "ricotta/app": "*",
         "codeception/codeception": "^5.2",
         "codeception/module-asserts": "^3.0",
         "codeception/module-rest": "^3.4",
