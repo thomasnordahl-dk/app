@@ -39,6 +39,7 @@ class ConsoleCest
     public function registerWrongType(FunctionalTester $I): void
     {
         $I->getApp()->add(new ConsoleModule());
+        $I->getApp()->loadModules();
         $I->getApp()
             ->bootstrap[Console::class]
             ->configure(fn (Console $console) => $console->register(MockService::class));
