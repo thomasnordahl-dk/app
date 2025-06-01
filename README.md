@@ -2,7 +2,7 @@
 
 # ricotta/app
 
-**ricotta/app** is the core application of the Ricotta framework—a robust, extensible foundation for building modern PHP projects. Use it to bootstrap your new Ricotta project with ease.
+**ricotta/app** is the core application of the Ricotta framework.
 
 - [License](LICENCE.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
