@@ -6,7 +6,7 @@ use Ricotta\App\Demo\FrontpageController;
 use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\App;
 use Ricotta\App\Module\Configuration\Configuration;
-use Ricotta\App\Module\Configuration\JSONConfiguration;
+use Ricotta\App\Module\Configuration\JsonConfiguration;
 use Ricotta\App\Module\Web\Error\DebugErrorHandler;
 use Ricotta\App\Module\Web\Error\ErrorHandler;
 
@@ -23,6 +23,6 @@ $app->bootstrap[ErrorHandler::class]
 
 $app->bootstrap[Configuration::class]
     ->register()
-    ->callback(fn () => new JSONConfiguration(__DIR__ . "/config.json"));
+    ->callback(fn () => new JsonConfiguration(__DIR__ . "/config.json"));
 
 $app->routes['/']->get(FrontpageController::class);

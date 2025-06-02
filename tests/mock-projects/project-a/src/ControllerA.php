@@ -7,12 +7,12 @@ namespace Mock\ProjectA;
 use Psr\Http\Message\ResponseInterface;
 use Ricotta\App\Module\Web\Controller;
 use Ricotta\App\Module\Web\Result;
-use Ricotta\App\Module\Web\Result\JSONResult;
+use Ricotta\App\Module\Web\Result\JsonResult;
 
 class ControllerA implements Controller
 {
     public function dispatch(): Result
     {
-        return new JSONResult('');
+        return new JsonResult('');
     }
 }

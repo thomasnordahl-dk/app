@@ -34,6 +34,11 @@ Roadmap
 -----
 - [x] CLI commands
 
+0.5.0
+-----
+ - [x] Moved codeception support to production code to leverage in ricotta based projects. __This is subject to change
+   in the future.__
+
 Next
 -----
 

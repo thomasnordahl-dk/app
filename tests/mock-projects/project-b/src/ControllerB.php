@@ -6,12 +6,12 @@ namespace Mock\ProjectB;
 
 use Ricotta\App\Module\Web\Controller;
 use Ricotta\App\Module\Web\Result;
-use Ricotta\App\Module\Web\Result\JSONResult;
+use Ricotta\App\Module\Web\Result\JsonResult;
 
 class ControllerB implements Controller
 {
     public function dispatch(): Result
     {
-        return new JSONResult('');
+        return new JsonResult('');
     }
 }

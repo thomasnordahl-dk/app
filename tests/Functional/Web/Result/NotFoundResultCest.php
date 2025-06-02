@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App\Tests\Functional\Web\Result;
 
-use Ricotta\App\Module\Web\Result\JSONResult;
+use Ricotta\App\Module\Web\Result\JsonResult;
 use Ricotta\App\Module\Web\Result\NotFoundResult;
 use Ricotta\App\Tests\Support\FunctionalTester;
 use Ricotta\Container\Container;

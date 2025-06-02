@@ -12,6 +12,6 @@ class NotFoundResult implements Result
 {
     public function createResponse(Container $container): ResponseInterface
     {
-        return new HTMLResult('not-found', 'ricotta/app', statusCode: 404)->createResponse($container);
+        return new HtmlResult('not-found', 'ricotta/app', statusCode: 404)->createResponse($container);
     }
 }

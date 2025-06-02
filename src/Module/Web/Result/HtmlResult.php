@@ -11,7 +11,7 @@ use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Web\Result;
 use Ricotta\Container\Container;
 
-class HTMLResult implements Result
+class HtmlResult implements Result
 {
     /**
      * @param string $fileName

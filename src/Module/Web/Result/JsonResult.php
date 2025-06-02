@@ -12,7 +12,7 @@ use Ricotta\App\Module\Web\Result;
 use Ricotta\Container\Container;
 use RuntimeException;
 
-class JSONResult implements Result
+class JsonResult implements Result
 {
     /**
      * @param mixed $data
