@@ -4,6 +4,7 @@ modules:
   # enable helpers as array
   enabled:
     - Asserts
-    - Ricotta\App\Tests\Support\Functional
+    - Cli
+    - Ricotta\App\Tests\Support\Ricotta\Functional
     - REST:
-        depends: Ricotta\App\Tests\Support\Functional
+        depends: Ricotta\App\Tests\Support\Ricotta\Functional

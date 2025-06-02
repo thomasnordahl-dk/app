@@ -2,7 +2,7 @@
 
 # ricotta/app
 
-**ricotta/app** is the core application of the Ricotta framework—a robust, extensible foundation for building modern PHP projects. Use it to bootstrap your new Ricotta project with ease.
+**ricotta/app** is the core application of the Ricotta framework.
 
 - [License](LICENCE.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
@@ -18,13 +18,13 @@
   - [Controller Classes](#controller-classes)
   - [Dependency Injection](#dependency-injection)
   - [Modules](#modules)
-  - [Configuration Files](#configuration-files)
   - [Configuration Interface](#configuration-interface)
   - [Advanced Routing](#advanced-routing)
   - [Middleware](#middleware)
   - [Templates](#templates)
   - [Result Models](#result-models)
   - [Error Handling](#error-handling)
+  - [Console Commands](#console-commands)
 
 ## Installation
 
@@ -48,6 +48,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Ricotta\App\App;
 
 $app = new App();
+
+$app->loadModules();
+
 $app->run();
 ``` 
 
@@ -112,7 +115,66 @@ $app->bootstrap['MyService::class']->register();
 
 ### Modules
 
-Encapsulate bootstrapping and routing logic in modules. Each module must implement the `Module` interface:
+#### Module packages
+
+Optional modules to a Ricotta project can be placed in separate Git repositories and defined as a Packagist package
+with the type: `ricotta`.
+
+When the method `Ricotta\App\App::loadModules()` is called (see Basic Setup), each of these packages are scanned for
+bootstrapping files in the root folder of the package.
+
+Bootstrapping can be placed in either `common.php`, `web.php`, or `cli.php`.
+
+Each of these files, if present, should contain a PHP script, that bootstraps or configures components and services
+on the `$app`variable (the `Ricotta\App\App` object) , which is present in the scope of the script. 
+
+##### `common.php`
+
+This file is always loaded, when present.
+
+##### `web.php`
+
+If present, this is loaded when the SAPI environment is not CLI - i.e. a web request context.
+
+##### `cli.php`
+
+If present, this is loaded when the SAPI environment is CLI - i.e. when a console command is run. See [Console Commands](#console-commands).
+
+These files contain the modules' required bootstrapping for the three different contexts - common, web, and cli.
+
+```php
+# common.php
+
+/** @var Ricotta\App\App $app */
+$app->bootstrap[UserRepository::class]->register();
+
+```
+
+
+```php
+# web.php
+
+/** @var Ricotta\App\App $app */
+$app->routes['/my-page']->get(MyPageController::class);
+
+```
+
+```php
+# cli.php
+
+use Ricotta\App\App;
+use Ricotta\App\Module\Console;
+
+/** @var Ricotta\App\App $app */
+$app->bootstrap[MyCommand::class]->register();
+
+$app->bootstrap[Console::class]
+    ->configure(fn (Console $console) => $console->register(MyCommand::class));
+```
+
+#### Module classes
+
+Encapsulate bootstrapping and routing logic in module classes. Each module must implement the `Module` interface:
 
 ```php
 <?php
@@ -131,9 +193,12 @@ class MyModule implements Module
 }
 ``` 
 
-### Configuration Files
+These can be used to group bootstrapping into neat classes instead of putting it all in the configuration files.
 
-Organize configuration and bootstrapping code in separate PHP files for a clean project structure. For example, create a `bootstrap.php`:
+#### Optional Module Files
+
+Besides the predefined PHP files for Ricotta module packages (`common.php`, `web.php`, and `cli.php`), custom
+PHP files can be loaded with the `Ricotta\App\App::load()` method.
 
 ```php
 <?php
@@ -143,19 +208,12 @@ Organize configuration and bootstrapping code in separate PHP files for a clean 
 $app->add(new MyModule());
 ``` 
 
-Then load this file in your index:
+Then load this file with the app object. This could be in a module class, the package configuration files or the `index.php` file.
 
 ```php
 <?php
-// {root}/webroot/index.php
-
-require_once __DIR__ . '/vendor/autoload.php';
-
-use Ricotta\App\App;
-
-$app = new App();
+/** @var Ricotta\App\App $app */
 $app->load(dirname(__DIR__) . '/bootstrap.php');
-$app->run();
 ``` 
 
 ### Configuration Interface
@@ -557,3 +615,104 @@ $app->bootstrap[ErrorHandler::class]
 ``` 
 
 ![Debug error page example](docs/img/error-page.png)
+
+### Console Commands
+
+The Ricotta framework comes with a simple CLI command runner. It is distributed as a binary file:
+
+    ~ vendor/bin/ricotta
+
+    The following arguments are required: [-c command name].
+    Usage: bin/ricotta [-c command name]
+
+    Required Arguments:
+            -c command name
+                    The name of the command to run
+    Available commands:
+    ****************************************
+    my-module:my-command     Run the my-command from the my-module module.
+    ****************************************
+
+Commands are invoked with `-c` argument
+
+    ~ vendor/bin/ricotta -c my-module:my-command
+
+#### Custom commands
+
+A new command is created by implementing the `Ricotta\App\Module\Console\Command` interface:
+
+```php
+
+namespace Ricotta\MyModule; 
+
+use Ricotta\App\Module\Console\Command;
+
+class MyCommand implements Command
+{
+    public static function getName(): string
+    {
+        return "my-module:my-command";
+    }
+
+    public static function getDescription(): string
+    {
+        return "Run the my-command from the my-module module.";
+    }
+
+    public function run(): void
+    {
+        // Perform the actions of the command
+    }
+}
+```
+
+The command should then be registered with the container and the console class in the app bootstrapping. A good
+place for this could be the `cli.php` configuration file in the Ricotta package repository.
+
+```php
+$app->bootstrap[MyCommand::class]->register();
+
+$app->bootstrap[Console::class]
+    ->configure(fn (Console $console) => $console->register(MyCommand::class));
+```
+
+The method of reading command arguments and producing output is up to the implementation, but for convenience,
+the library [`league/climate`](https://climate.thephpleague.com) can be used to accomplish this.
+
+You can use it directly or you can leverage the `Ricotta\App\Module\Console\ClimateFactory` component to create
+new instances of `League\CLIMate\CLIMate` instead of constructing the objects directly.
+
+```php
+
+namespace Ricotta\MyModule; 
+
+use Ricotta\App\Module\Console\Command;
+
+class MyCommand implements Command
+{
+    public function __construct(private ClimateFactory $climateFactory) { }
+
+    public static function getName(): string
+    {
+        return "my-module:my-command";
+    }
+
+    public static function getDescription(): string
+    {
+        return "Run the my-command from the my-module module.";
+    }
+
+    public function run(): void
+    {
+        $climate = $this->climateFactory->create();
+
+        $name = $climate->input->prompt("What is your name?");
+
+        $climate->output->line("Hello {$name}");
+    }
+}
+```
+
+    ~ vendor/bin/ricotta -c my-module:my-command
+    ~ What is your name?
+    ~ Hello John

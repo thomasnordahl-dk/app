@@ -2,3 +2,4 @@
 /tests/Support/_generated/
 /tests/_output/
 phpcs.xml
+.idea

@@ -25,6 +25,10 @@ class GetController implements Controller
     {
         $message = $this->message;
 
+        if ($this->routeResult->route === null) {
+            throw new \RuntimeException('Route result route not found');
+        }
+
         foreach ($this->routeResult->route->parameters as $name => $value) {
             $message .= ', ' . $name . ': ' . $value;
         }

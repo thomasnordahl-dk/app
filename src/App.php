@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App;
 
+use Composer\InstalledVersions;
 use InvalidArgumentException;
 use Ricotta\App\Module\Web\WebModule;
 use Ricotta\App\Module\Web\Routes;
@@ -11,6 +12,7 @@ use Ricotta\App\Module\Web\Routing\Router;
 use Ricotta\App\Module\Web\Server;
 use Ricotta\App\Module\Module;
 use Ricotta\App\Module\Template\TemplateModule;
+use Ricotta\App\Utility\Environment;
 use Ricotta\Container\Bootstrapping;
 use Ricotta\Container\Container;
 
@@ -22,7 +24,7 @@ class App
 
     public private(set) Routes $routes;
 
-    public function __construct()
+    public function __construct(private Environment $environment = new Environment())
     {
         $router = new Router();
         $this->routes = $router;
@@ -54,8 +56,54 @@ class App
             throw new InvalidArgumentException("{$path} is not a PHP file");
         }
 
-        $app = $this;
-
-        include $path;
+        loadFileOutOfClassScope($this, $path);
     }
+
+    public function loadModules(): void
+    {
+        $packagePaths = $this->getRicottaPackagePaths();
+
+        foreach ($packagePaths as $packagePath) {
+            $this->loadPackageFile($packagePath, "common.php");
+
+            if ($this->environment->isCli()) {
+                $this->loadPackageFile($packagePath, "cli.php");
+            } else {
+                $this->loadPackageFile($packagePath, "web.php");
+            }
+        }
+    }
+
+    private function loadPackageFile(string $packagePath, string $fileName): void
+    {
+        $filePath = $packagePath . DIRECTORY_SEPARATOR . $fileName;
+
+        if (file_exists($filePath)) {
+            loadFileOutOfClassScope($this, $filePath);
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getRicottaPackagePaths(): array
+    {
+        $paths = array_map(
+            fn ($packageName) => InstalledVersions::getInstallPath($packageName),
+            InstalledVersions::getInstalledPackagesByType('ricotta')
+        );
+
+        return array_filter($paths, fn ($value) => $value !== null);
+    }
+}
+
+/**
+ * Load the file with the $app bound to the scope.
+ *
+ * Ideally the path would not be bound to the file scope at all, but this can only be done using eval(), so an
+ * obscure variable name is used instead as the lesser evil.
+ */
+function loadFileOutOfClassScope(App $app, string $___path): void
+{
+    require $___path;
 }

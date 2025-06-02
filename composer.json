@@ -7,6 +7,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/thomasnordahl-dk/container"
+        },
+        {
+            "type": "path",
+            "url": "tests/mock-projects/project-a"
+        },
+        {
+            "type": "path",
+            "url": "tests/mock-projects/project-b"
         }
     ],
     "autoload": {
@@ -36,19 +44,27 @@
         "psr/http-factory": "^1.1",
         "nyholm/psr7-server": "^1.1",
         "httpsoft/http-emitter": "^1.1",
-        "codeception/module-rest": "^3.4",
-        "psr/http-server-middleware": "^1.0"
+        "psr/http-server-middleware": "^1.0",
+        "composer-runtime-api": "^2",
+        "league/climate": "^3.10"
     },
     "require-dev": {
         "phpstan/phpstan": "^2.1",
         "codeception/codeception": "^5.2",
         "codeception/module-asserts": "^3.0",
+        "codeception/module-rest": "^3.4",
         "codeception/lib-innerbrowser": "^4.0",
-        "squizlabs/php_codesniffer": "^3.11"
+        "squizlabs/php_codesniffer": "^3.11",
+        "mock/project-a": "*",
+        "mock/project-b": "*",
+        "codeception/module-cli": "^2.0" 
     },
+    "bin": [
+        "bin/ricotta"
+    ],
     "scripts": {
         "test": "codecept run",
-        "phpstan": "phpstan analyse --level=9 src demo",
+        "phpstan": "phpstan analyse --level=9 src demo tests/Functional tests/Support/Ricotta",
         "phpcs": "phpcs -s --tab-width=4 demo src templates tests",
         "fix": "phpcbf --tab-width=4 demo src tests templates",
         "all": [

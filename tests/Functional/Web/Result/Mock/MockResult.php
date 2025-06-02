@@ -13,6 +13,9 @@ class MockResult implements Result
 {
     public function createResponse(Container $container): ResponseInterface
     {
+        /**
+         * @var ResponseInterface
+         */
         return $container->call(function (ResponseFactoryInterface $responseFactory) {
             $response = $responseFactory->createResponse(200);
             $response->getBody()->write('Mock result');

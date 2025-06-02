@@ -32,14 +32,16 @@ Roadmap
 
 0.4.0
 -----
-- [ ] Input parsing (?)
-- [ ] CLI commands
+- [x] CLI commands
 
-0.5.0
+Next
 -----
 
-- [ ] Skeleton project?
+- [ ] Clean up messy test support classes
+- [ ] Input parsing
+- [ ] Demo project in a separate repository?
 - [ ] Configuration Seeding
+- [ ] Test coverage is not registered on console tests
 
 1.0.0
 -----
