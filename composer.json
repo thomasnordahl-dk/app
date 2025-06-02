@@ -5,10 +5,6 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/thomasnordahl-dk/container"
-        },
-        {
             "type": "path",
             "url": "tests/mock-projects/project-a"
         },

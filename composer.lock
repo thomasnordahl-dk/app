@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52f3569670e77614e30f33f7e3d4162c",
+    "content-hash": "ba8f36018e8bbd98b1de686ff6bfcafa",
     "packages": [
         {
             "name": "httpsoft/http-emitter",
@@ -607,7 +607,7 @@
             "version": "0.1.2",
             "source": {
                 "type": "git",
-                "url": "git@github.com:thomasnordahl-dk/container.git",
+                "url": "https://github.com/thomasnordahl-dk/container.git",
                 "reference": "57a62291020a69d3c7d616a49292de6a457e9367"
             },
             "dist": {
@@ -631,23 +631,7 @@
                     "Ricotta\\Container\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Ricotta\\Container\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "all": [
-                    "@test",
-                    "@phpstan"
-                ],
-                "test": [
-                    "vendor/bin/codecept run"
-                ],
-                "phpstan": [
-                    "vendor/bin/phpstan --level=9 analyse src tests/Functional"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -659,8 +643,8 @@
             ],
             "description": "Dependency Injection Container with a focus on type safety and life cycle robustness",
             "support": {
-                "source": "https://github.com/thomasnordahl-dk/container/tree/0.1.2",
-                "issues": "https://github.com/thomasnordahl-dk/container/issues"
+                "issues": "https://github.com/thomasnordahl-dk/container/issues",
+                "source": "https://github.com/thomasnordahl-dk/container/tree/0.1.2"
             },
             "time": "2025-02-27T10:04:26+00:00"
         },
@@ -1671,7 +1655,7 @@
         },
         {
             "name": "mock/project-a",
-            "version": "0.4.x-dev",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "tests/mock-projects/project-a",
@@ -1692,7 +1676,7 @@
         },
         {
             "name": "mock/project-b",
-            "version": "0.4.x-dev",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "tests/mock-projects/project-b",
