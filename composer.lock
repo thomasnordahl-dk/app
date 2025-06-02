@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88ef3bbcffa803aaec0dc3e21a35a247",
+    "content-hash": "52f3569670e77614e30f33f7e3d4162c",
     "packages": [
         {
             "name": "httpsoft/http-emitter",
@@ -1773,16 +1773,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.4.0",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
+                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/447a020a1f875a434d62f2a401f53b82a396e494",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ae59794362fe85e051a58ad36b289443f57be7a9",
+                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9",
                 "shasum": ""
             },
             "require": {
@@ -1825,9 +1825,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.4.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.5.0"
             },
-            "time": "2024-12-30T11:07:19+00:00"
+            "time": "2025-05-31T08:24:38+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -2616,47 +2616,6 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
-        },
-        {
-            "name": "ricotta/codeception-module",
-            "version": "0.4.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "codeception-module",
-                "reference": "891e7a2d189a73430d37d32c1ca8f2cf6274f3c1"
-            },
-            "require": {
-                "codeception/codeception": "^5.2",
-                "codeception/lib-innerbrowser": "^4.0",
-                "codeception/module-asserts": "^3.0",
-                "codeception/module-rest": "^3.4",
-                "php": ">=8.4",
-                "ricotta/app": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ricotta\\CodeceptionModule\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Ricotta\\App\\": "../src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thomas Nordahl Pedersen",
-                    "email": "thno@fynskemedier.dk"
-                }
-            ],
-            "description": "Ricotta app codeception test support module",
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "sebastian/cli-parser",

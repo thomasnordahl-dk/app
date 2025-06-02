@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\CodeceptionModule;
+namespace Ricotta\App\Tests\Support;
 
 use Ricotta\App\Utility\Environment;
 
