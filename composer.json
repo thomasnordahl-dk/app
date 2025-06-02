@@ -55,6 +55,13 @@
         "mock/project-b": "*",
         "codeception/module-cli": "^2.0" 
     },
+    "suggest": {
+      "codeception/codeception":      "These are needed if you want to leverage the codeception support½",
+      "codeception/module-asserts":   "These are needed if you want to leverage the codeception support½",
+      "codeception/module-rest":      "These are needed if you want to leverage the codeception support½",
+      "codeception/lib-innerbrowser": "These are needed if you want to leverage the codeception support½",
+      "codeception/module-cli":       "These are needed if you want to leverage the codeception support½"
+    },
     "bin": [
         "bin/ricotta"
     ],
