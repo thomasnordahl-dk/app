@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Support\Ricotta;
+namespace Ricotta\App\Utility\Codeception;
 
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class TestEmitter implements EmitterInterface
+class CaptureOutputEmitter implements EmitterInterface
 {
     // @codingStandardsIgnoreStart - PHPCS has trouble with the new property hooks :(
     public private(set) ResponseInterface $response 

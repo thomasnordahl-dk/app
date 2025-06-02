@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Mock\ProjectA;
 
-use Ricotta\App\Module\Console\ClimateFactory;
+use League\CLImate\CLImate;
+use Ricotta\App\Module\Console\CliMateFactory;
 use Ricotta\App\Module\Console\Command;
 
 class TestCommand implements Command
 {
-    public function __construct(private ClimateFactory $climateFactory)
-    {
-    }
-
     public static function getName(): string
     {
         return "a:test-command";
@@ -25,7 +22,7 @@ class TestCommand implements Command
 
     public function run(): void
     {
-        $climate = $this->climateFactory->create();
+        $climate = new CLImate();
 
         $climate->arguments->add([
             'optional' => [

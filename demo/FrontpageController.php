@@ -9,12 +9,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Ricotta\App\Module\Template\TemplateEngine;
 use Ricotta\App\Module\Web\Controller;
-use Ricotta\App\Module\Web\Result\HTMLResult;
+use Ricotta\App\Module\Web\Result\HtmlResult;
 
 readonly class FrontpageController implements Controller
 {
-    public function dispatch(): HTMLResult
+    public function dispatch(): HtmlResult
     {
-        return new HTMLResult('front-page', 'ricotta/app');
+        return new HtmlResult('front-page', 'ricotta/app');
     }
 }

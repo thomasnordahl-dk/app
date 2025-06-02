@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ricotta\App\Module\Console;
 
 use Closure;
+use League\CLImate\CLImate;
 use League\CLImate\Exceptions\InvalidArgumentException;
 use RuntimeException;
 
@@ -25,7 +26,7 @@ class Console
      */
     private array $commandDescriptions = [];
 
-    public function __construct(private ClimateFactory $climateFactory, private Closure $resolveCommand)
+    public function __construct(private Closure $resolveCommand)
     {
     }
 
@@ -48,7 +49,7 @@ class Console
 
     public function run(): void
     {
-        $climate = $this->climateFactory->create();
+        $climate = new CLImate();
 
         $climate->arguments->add([
             'command name' => [

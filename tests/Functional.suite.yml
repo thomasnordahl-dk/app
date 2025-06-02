@@ -5,6 +5,6 @@ modules:
   enabled:
     - Asserts
     - Cli
-    - Ricotta\App\Tests\Support\Ricotta\Functional
+    - Ricotta\App\Utility\Codeception\Functional
     - REST:
-        depends: Ricotta\App\Tests\Support\Ricotta\Functional
+        depends: Ricotta\App\Utility\Codeception\Functional

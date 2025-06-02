@@ -224,14 +224,14 @@ In the default setup, configuration is loaded from a JSON file using the `JSONCo
 
 ```php
 use Ricotta\App\Module\Configuration\Configuration;
-use Ricotta\App\Module\Configuration\JSONConfiguration;
+use Ricotta\App\Module\Configuration\JsonConfiguration;
 
 /**
  * @var \Ricotta\App\App $app
  */
 $app->bootstrap[Configuration::class]
     ->register()
-    ->callback(fn () => new JSONConfiguration(__DIR__ . '/config.json'));
+    ->callback(fn () => new JsonConfiguration(__DIR__ . '/config.json'));
 ```
 
 Once registered, the `Configuration` service can be injected wherever needed. Values are accessed using dot-separated paths to navigate nested structures. For example, given the following `config.json`:

@@ -6,7 +6,7 @@ namespace Ricotta\App\Tests\Functional\Configuration;
 
 use Ricotta\App\Module\Configuration\Configuration;
 use Ricotta\App\Module\Configuration\ConfigurationException;
-use Ricotta\App\Module\Configuration\JSONConfiguration;
+use Ricotta\App\Module\Configuration\JsonConfiguration;
 use Ricotta\App\Tests\Support\FunctionalTester;
 use Ricotta\Container\Container;
 
@@ -17,7 +17,7 @@ class ConfigurationCest
         $I->getApp()
             ->bootstrap[Configuration::class]
             ->register()
-            ->callback(fn () => new JSONConfiguration(__DIR__ . "/test-config.json"));
+            ->callback(fn () => new JsonConfiguration(__DIR__ . "/test-config.json"));
 
         $container = new Container($I->getApp()->bootstrap);
 
@@ -84,7 +84,7 @@ class ConfigurationCest
         $I->getApp()
             ->bootstrap[Configuration::class]
             ->register()
-            ->callback(fn () => new JSONConfiguration(__DIR__ . "/doesnt-exist-config.json"));
+            ->callback(fn () => new JsonConfiguration(__DIR__ . "/doesnt-exist-config.json"));
 
         $container = new Container($I->getApp()->bootstrap);
 
@@ -98,7 +98,7 @@ class ConfigurationCest
         $I->getApp()
             ->bootstrap[Configuration::class]
             ->register()
-            ->callback(fn () => new JSONConfiguration(__DIR__ . "/bad-config.json"));
+            ->callback(fn () => new JsonConfiguration(__DIR__ . "/bad-config.json"));
 
         $container = new Container($I->getApp()->bootstrap);
 
@@ -113,7 +113,7 @@ class ConfigurationCest
         $I->getApp()
             ->bootstrap[Configuration::class]
             ->register()
-            ->callback(fn () => new JSONConfiguration(__DIR__ . "/invalid-json-config.json"));
+            ->callback(fn () => new JsonConfiguration(__DIR__ . "/invalid-json-config.json"));
 
         $container = new Container($I->getApp()->bootstrap);
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Support\Ricotta;
+namespace Ricotta\App\Utility\Codeception;
 
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\BrowserKit\Response;
 /**
  * @extends AbstractBrowser<Request, Response>
  */
-class TestClient extends AbstractBrowser
+class Client extends AbstractBrowser
 {
     public function __construct(private readonly TestState $appState)
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ricotta\App\Tests\Functional\Web\Result;
 
-use Ricotta\App\Module\Web\Result\JSONResult;
+use Ricotta\App\Module\Web\Result\JsonResult;
 use Ricotta\App\Tests\Support\FunctionalTester;
 use Ricotta\Container\Container;
 use RuntimeException;
@@ -24,7 +24,7 @@ class JSONResultCest
             ],
         ];
 
-        $result = new JSONResult(
+        $result = new JsonResult(
             $data,
             201,
             ['x-header' => 'x-value']
@@ -48,7 +48,7 @@ class JSONResultCest
 
         $bad_array['self'] = &$bad_array; // Can not encode circular reference to JSON
 
-        $result = new JSONResult($bad_array);
+        $result = new JsonResult($bad_array);
 
         $I->expectThrowable(RuntimeException::class, fn () => $result->createResponse($container));
     }
