@@ -42,6 +42,7 @@ class ConsoleCest
         $I->getApp()->loadModules();
         $I->getApp()
             ->bootstrap[Console::class]
+            //@phpstan-ignore-next-line - We want to make sure this is robust when using without static analysis as well
             ->configure(fn (Console $console) => $console->register(MockService::class));
 
         $container = new Container($I->getApp()->bootstrap);

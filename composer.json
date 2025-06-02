@@ -64,7 +64,7 @@
     ],
     "scripts": {
         "test": "codecept run",
-        "phpstan": "phpstan analyse --level=9 src demo",
+        "phpstan": "phpstan analyse --level=9 src demo tests/Functional tests/Support/Ricotta",
         "phpcs": "phpcs -s --tab-width=4 demo src templates tests",
         "fix": "phpcbf --tab-width=4 demo src tests templates",
         "all": [

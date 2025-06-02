@@ -20,6 +20,7 @@ class RoutingCest
     {
         $I->getApp()->routes['/']->get(GetController::class);
         $I->getApp()->routes['/tests/{subpath}/{name}/*']->post(PostController::class);
+        // @phpstan-ignore-next-line - testing robustness without safety net of static analysis
         $I->getApp()->routes['/bad']->get('NonExistentController');
 
         $I->getApp()->routes['/put']->put(PutController::class);
@@ -91,11 +92,13 @@ class RoutingCest
 
         $app = $I->getApp();
 
+        // @phpstan-ignore-next-line - testing robustness if used this way although static analysis tells us not to.
         unset($app->routes['/']);
 
         $I->amOnPage('/');
         $I->seeResponseCodeIs(404);
 
+        // @phpstan-ignore-next-line - testing robustness if no static analysis is used.
         $I->expectThrowable(RouterException::class, fn() => $app->routes['/'] = 'test');
 
         $I->expectThrowable(

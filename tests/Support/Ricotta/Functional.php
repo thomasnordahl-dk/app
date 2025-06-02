@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Support;
+namespace Ricotta\App\Tests\Support\Ricotta;
 
 use Codeception\Lib\Framework;
 use Codeception\TestInterface;

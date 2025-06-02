@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ricotta\App\Tests\Support;
+namespace Ricotta\App\Tests\Support\Ricotta;
 
 use HttpSoft\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseInterface;
