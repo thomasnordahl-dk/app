@@ -29,7 +29,7 @@ class Definition
      */
     public function __construct(private readonly string $pattern)
     {
-        if (! preg_match(self::VALID_PATTERN_REGEX, $pattern)) {
+        if (!preg_match(self::VALID_PATTERN_REGEX, $pattern)) {
             throw new RouterException("Invalid pattern - '{$pattern}'");
         }
     }
@@ -120,7 +120,7 @@ class Definition
     }
 
     /**
-     * @param Method                   $method
+     * @param Method $method
      * @param class-string<Controller> $controller
      *
      * @return void
@@ -137,7 +137,7 @@ class Definition
     {
         $method = Method::fromString($request->getMethod());
 
-        if (! isset($this->controllers[$method->value])) {
+        if (!isset($this->controllers[$method->value])) {
             return null;
         }
 
@@ -155,18 +155,23 @@ class Definition
         /** @var ?string $wildcard */
         $wildcard = null;
 
-        foreach ($subPatterns as $index => $subPattern) {
+        foreach ($subPaths as $index => $subPath) {
+            $subPattern = $subPatterns[$index] ?? null;
+            if ($subPattern === null) {
+                return null;
+            }
+
             if (preg_match('/^{(.*)}$/i', $subPattern)) {
-                $parameters[mb_substr($subPattern, 1, -1)] = $subPaths[$index];
+                $parameters[mb_substr($subPattern, 1, -1)] = $subPath;
                 continue;
             }
 
             if ($subPattern === '*') {
                 $wildcard = implode('/', array_slice($subPaths, $index));
-                continue;
+                break;
             }
 
-            if ($subPattern !== ($subPaths[$index] ?? null)) {
+            if ($subPattern !== ($subPath ?? null)) {
                 return null;
             }
         }

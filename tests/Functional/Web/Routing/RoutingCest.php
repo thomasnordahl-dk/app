@@ -19,6 +19,7 @@ class RoutingCest
     public function appWithRouting(FunctionalTester $I): void
     {
         $I->getApp()->routes['/']->get(GetController::class);
+        $I->getApp()->routes['/subpath']->get(GetController::class);
         $I->getApp()->routes['/tests/{subpath}/{name}/*']->post(PostController::class);
         // @phpstan-ignore-next-line - testing robustness without safety net of static analysis
         $I->getApp()->routes['/bad']->get('NonExistentController');
@@ -35,9 +36,12 @@ class RoutingCest
         $I->seeResponseCodeIs(200);
         $I->see('Hello, World!');
 
-        $I->amOnPage('');
+        $I->amOnPage('/subpath');
         $I->seeResponseCodeIs(200);
         $I->see('Hello, World!');
+
+        $I->amOnPage('/subpath/doesnotexist');
+        $I->seeResponseCodeIs(404);
 
         $I->sendAjaxPostRequest('/');
         $I->seeResponseCodeIs(404);
