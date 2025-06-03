@@ -276,8 +276,6 @@ The configuration file is loaded lazily — it is read and parsed only when a va
 
 ---
 
-Would you also want a quick extra snippet showing how you'd use it inside a controller, just to make it even closer to your FrontpageController example? 🚀
-
 ### Advanced Routing
 
 Define routes with named placeholders and wildcards. Placeholder values are available via the `RouteResult` object.
